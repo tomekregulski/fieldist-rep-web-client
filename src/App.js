@@ -1,28 +1,26 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import { AuthContext } from './context/AuthContext';
+import { Switch, Route, Redirect } from 'react-router-dom';
 import axios from 'axios';
 
-function App() {
-  const [data, setData] = useState([]);
+import NavbarSwitch from './components/Navbar/NavbarSwitch';
+import { Dashboard, Login, Reports } from './pages';
+import ProtectedRoute from './ProtectedRoute';
 
-  useEffect(() => {
-    axios
-      .get('https://fieldist-back-end.herokuapp.com/api/users')
-      .then((response) => {
-        const res = response.data;
-        setData(res);
-      });
-  }, []);
+function App() {
+  const { auth } = useContext(AuthContext);
+  const [isAuth, setIsAuth] = auth;
 
   return (
-    <div>
-      <h1>Welcome to the Fieldist Admikn Web App</h1>
-      <p>These are the names of current users:</p>
-      <ul>
-        {data.map((item, index) => {
-          return <li key={index}>{item.first_name}</li>;
-        })}
-      </ul>
-    </div>
+    <>
+      <NavbarSwitch />
+      <Switch>
+        <ProtectedRoute exact path={'/'} component={Dashboard} />
+        <ProtectedRoute exact path={'/reports'} component={Reports} />
+        <Route exact path='/login' component={Login} />
+      </Switch>
+      {/* {isAuth === true ? <Dashboard /> : <Login />} */}
+    </>
   );
 }
 
