@@ -1,10 +1,10 @@
 import React from 'react';
 import TextField from '@mui/material/TextField';
 
-const Textfield = () => {
+const Textfield = (props) => {
   return (
     <div>
-      <Textfield />
+      <TextField label={props.data && props.data} variant='standard' />
     </div>
   );
 };

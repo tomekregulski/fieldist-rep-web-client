@@ -50,34 +50,6 @@ const Login = () => {
 
           history.push('/');
         });
-
-      // axios
-      //   .post(
-      //     // `https://intelly-auth-service.herokuapp.com/api/users/login`,
-      //     'http://localhost:5000/api/users/login',
-      //     payload
-      //   )
-      //   .then((response) => {
-      //     // document.cookie =
-      //     //   'token=' + res.session
-      //     console.log(response.data);
-      //     if (response.data.brands) {
-      //       console.log(response.data);
-      //       setAuthState({
-      //         id: response.data.id,
-      //         email: response.data.email,
-      //         first_name: response.data.first_name,
-      //         last_name: response.data.last_name,
-      //         role: response.data.roles,
-      //         brands: response.data.brands,
-      //         token: response.data.accessToken,
-      //       });
-      //       console.log('logged in successfully');
-      //
-      //       // this seems to break the login process
-      //       // window.location.reload();
-      //     }
-      //   });
     }
   };
 
