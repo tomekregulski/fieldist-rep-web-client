@@ -46,10 +46,12 @@ const formData = {
   brands: ['Simmer', 'Saso'],
   products: [
     {
-      Simmer: ['classic', 'garlic', 'basil'],
+      name: 'Simmer',
+      products: ['classic', 'garlic', 'basil'],
     },
     {
-      Saso: ['roja', 'verde'],
+      name: 'Saso',
+      products: ['roja', 'verde'],
     },
   ],
 };

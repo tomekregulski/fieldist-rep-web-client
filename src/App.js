@@ -2,7 +2,7 @@ import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 
 import NavbarSwitch from './components/Navbar/NavbarSwitch';
-import { Dashboard, Login, Reports } from './pages';
+import { Dashboard, Login, Audits } from './pages';
 import ProtectedRoute from './ProtectedRoute';
 
 function App() {
@@ -11,7 +11,7 @@ function App() {
       <NavbarSwitch />
       <Switch>
         <ProtectedRoute exact path={'/'} component={Dashboard} />
-        <ProtectedRoute exact path={'/reports'} component={Reports} />
+        <ProtectedRoute exact path={'/store-visits'} component={Audits} />
         <Route exact path='/login' component={Login} />
       </Switch>
     </>
