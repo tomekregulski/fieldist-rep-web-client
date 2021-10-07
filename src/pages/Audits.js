@@ -1,4 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import { ReportContext } from '../context/ReportContext';
+
 import { FormSelect } from '../components/Forms';
 import { Inventory } from '../components/Inventory';
 
@@ -16,23 +18,41 @@ const stores = [
 ];
 
 const Reports = () => {
-  const [start, setStart] = useState(false);
-  const [store, setStore] = useState('');
-  const [checkedIn, setCheckedIn] = useState(false);
-  const [brand, setBrand] = useState('');
-  const [products, setProducts] = useState([]);
-  const [questions, setQuestions] = useState([]);
+  const {
+    begin,
+    clockIn,
+    location,
+    brand,
+    products,
+    questions,
+    data,
+    finished,
+    clockOut,
+  } = useContext(ReportContext);
+  const [start, setStart] = begin;
+  const [selectedLocation, setSelectedLocation] = location;
+  const [checkedIn, setCheckedIn] = clockIn;
+  const [selectedBrand, setSelectedBrand] = brand;
+  const [brandProducts, setBrandProducts] = products;
+  const [reportQuestions, setReportQuestions] = questions;
+  const [showFinished, setShowFinished] = finished;
+  // eslint-disable-next-line no-unused-vars
+  const [reportData, setReportData] = data;
+  // eslint-disable-next-line no-unused-vars
+  const [checkedOut, setCheckedOut] = clockOut;
+
+  const [showClockOut, setShowClockOut] = useState(false);
 
   useEffect(() => {
-    brand !== '' && setQuestions(formData[brand]);
-  }, [brand, setBrand]);
+    selectedBrand !== '' && setReportQuestions(formData[selectedBrand]);
+  }, [brand, selectedBrand, setReportQuestions, setSelectedBrand]);
 
   const brandSelect = (data) => {
     const value = Object.values(data);
-    setBrand(value[0]);
+    setSelectedBrand(value[0]);
     for (let i = 0; i < formData.products.length; i++) {
       if (formData.products[i].name === value[0]) {
-        setProducts(formData.products[i].products);
+        setBrandProducts(formData.products[i].products);
       }
     }
   };
@@ -41,12 +61,31 @@ const Reports = () => {
     setStart(true);
   };
 
-  const handleStoreSelect = (store) => {
-    setStore(store);
+  const handleStoreSelect = (data) => {
+    const value = Object.values(data)[0];
+    setSelectedLocation(value);
   };
 
   const handleCheckIn = () => {
     setCheckedIn(true);
+  };
+
+  const handleSubmitReport = () => {
+    console.log(data[0]);
+    setShowFinished(true);
+  };
+
+  const handleCheckOut = () => {
+    setCheckedOut(true);
+    window.location.reload();
+  };
+
+  const resetForm = () => {
+    setSelectedBrand('');
+    setBrandProducts([]);
+    setReportQuestions([]);
+    setReportData({});
+    setShowFinished(false);
   };
 
   return (
@@ -62,11 +101,12 @@ const Reports = () => {
             callback={handleStoreSelect}
             data={stores}
             label='stores'
-            value={store}
+            question={'Select a Location'}
+            value={selectedLocation}
           />
         </Grid>
       ) : null}
-      {store !== '' ? (
+      {selectedLocation !== '' ? (
         <Grid style={{ marginTop: '15px' }} item xs={8}>
           <Button variant='outlined' fullWidth onClick={() => handleCheckIn()}>
             Check In
@@ -83,11 +123,48 @@ const Reports = () => {
           />
         </Grid>
       ) : null}
-      {questions.length ? (
+      {reportQuestions.length ? (
         <Grid style={{ marginTop: '40px' }}>
-          <h2>--- {brand} Report Form ---</h2>
-          <Inventory data={products} />
-          <RenderedForm data={questions} brand={brand} />
+          <h2>--- {selectedBrand} Report Form ---</h2>
+          <Inventory data={brandProducts} />
+          <RenderedForm data={reportQuestions} brand={brand} />
+        </Grid>
+      ) : null}
+      {data[0].formResponse ? (
+        <Grid style={{ marginTop: '15px' }} item xs={8}>
+          <Button
+            variant='outlined'
+            fullWidth
+            onClick={() => handleSubmitReport()}
+          >
+            Submit Completed Report
+          </Button>
+        </Grid>
+      ) : null}
+      {showFinished === true ? (
+        <Grid>
+          <p>Do you have another form to submit at this location?</p>
+          <Grid style={{ marginTop: '15px' }} item xs={8}>
+            <Button variant='outlined' fullWidth onClick={() => resetForm()}>
+              Yes
+            </Button>
+          </Grid>
+          <Grid style={{ marginTop: '15px' }} item xs={8}>
+            <Button
+              variant='outlined'
+              fullWidth
+              onClick={() => setShowClockOut(true)}
+            >
+              No
+            </Button>
+          </Grid>
+        </Grid>
+      ) : null}
+      {showClockOut === true ? (
+        <Grid style={{ marginTop: '15px' }} item xs={8}>
+          <Button variant='outlined' fullWidth onClick={() => handleCheckOut()}>
+            Check Out
+          </Button>
         </Grid>
       ) : null}
     </Grid>

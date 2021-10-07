@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useContext } from 'react';
 import { AuthContext } from '../../context/AuthContext';
 import NavbarLoggedIn from './NavbarLoggedIn';
 import NavbarLoggedOut from './NavbarLoggedOut';
@@ -8,6 +8,7 @@ import axios from 'axios';
 function NavbarSwitch() {
   const { auth, user } = useContext(AuthContext);
   const [isAuth, setIsAuth] = auth;
+  // eslint-disable-next-line no-unused-vars
   const [userData, setUserData] = user;
 
   const handleLogout = () => {
