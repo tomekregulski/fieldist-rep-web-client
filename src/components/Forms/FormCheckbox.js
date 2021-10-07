@@ -20,6 +20,7 @@ const FormCheckbox = (props) => {
         <FormGroup>
           {props.data.map((item, index) => (
             <FormControlLabel
+              key={index}
               control={
                 <Checkbox
                   // checked={gilad}

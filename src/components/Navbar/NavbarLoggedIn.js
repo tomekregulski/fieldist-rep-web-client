@@ -20,8 +20,8 @@ const NavbarLoggedIn = (props) => {
         <button style={{ marginRight: '15px' }} onClick={() => handleLogout()}>
           Logout
         </button>
-        <Link style={{ marginRight: '30px' }} to='/reports'>
-          Reports
+        <Link style={{ marginRight: '30px' }} to='/store-visits'>
+          Store Visits
         </Link>
       </div>
     </nav>

@@ -25,8 +25,8 @@ const RenderedForm = (props) => {
   };
 
   return (
-    <div>
-      <h1>---Report Form----</h1>
+    <div style={{ marginTop: '40px' }}>
+      <h2> Event Questions</h2>
       <form action='/my-handling-form-page' method='post'>
         <Grid container spacing={2}>
           {props
