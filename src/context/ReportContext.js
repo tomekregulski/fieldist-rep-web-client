@@ -2,19 +2,29 @@ import React, { useState, createContext } from 'react';
 // import axios from 'axios';
 export const ReportContext = createContext();
 
-export const AuthProvider = (props) => {
-  const [brand, setBrand] = useState('');
-  const [questions, setQuestions] = useState([]);
-  const [products, setProducts] = useState([]);
-  const [reportData, setReportData] = useState([]);
+export const ReportProvider = (props) => {
+  const [start, setStart] = useState(false);
+  const [selectedLocation, setSelectedLocation] = useState('');
+  const [checkedIn, setCheckedIn] = useState(false);
+  const [selectedBrand, setSelectedBrand] = useState('');
+  const [brandProducts, setBrandProducts] = useState([]);
+  const [reportQuestions, setReportQuestions] = useState([]);
+  const [reportData, setReportData] = useState({});
+  const [showFinished, setShowFinished] = useState(false);
+  const [checkedOut, setCheckedOut] = useState(false);
 
   return (
     <ReportContext.Provider
       value={{
-        brand: [brand, setBrand],
-        questions: [questions, setQuestions],
-        products: [products, setProducts],
-        reportData: [reportData, setReportData],
+        begin: [start, setStart],
+        location: [selectedLocation, setSelectedLocation],
+        clockIn: [checkedIn, setCheckedIn],
+        brand: [selectedBrand, setSelectedBrand],
+        products: [brandProducts, setBrandProducts],
+        questions: [reportQuestions, setReportQuestions],
+        data: [reportData, setReportData],
+        finished: [showFinished, setShowFinished],
+        clockOut: [checkedOut, setCheckedOut],
       }}
     >
       {props.children}

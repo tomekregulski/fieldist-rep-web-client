@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import { ReportContext } from '../../context/ReportContext';
 
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -13,8 +14,11 @@ import Grid from '@mui/material/Grid';
 import { Textfield } from '../Forms';
 
 const InventoryTable = (props) => {
+  const { data } = useContext(ReportContext);
   const [products, setProducts] = useState([]);
   const [salesData, setSalesData] = useState([]);
+  // eslint-disable-next-line no-unused-vars
+  const [reportData, setReportData] = data;
 
   useEffect(() => {
     setProducts(props.data);
@@ -31,7 +35,11 @@ const InventoryTable = (props) => {
   };
 
   const handleSubmit = () => {
-    console.log(salesData);
+    console.log({ inventory: salesData });
+    setReportData((prevState) => ({
+      ...prevState,
+      inventory: salesData,
+    }));
   };
 
   return (
@@ -75,7 +83,7 @@ const InventoryTable = (props) => {
             fullWidth
             onClick={(event) => handleSubmit(event)}
           >
-            Submit
+            Save
           </Button>
         </Grid>
       </Grid>

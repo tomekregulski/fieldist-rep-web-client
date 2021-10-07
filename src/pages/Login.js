@@ -14,7 +14,9 @@ const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const { auth, user } = useContext(AuthContext);
+  // eslint-disable-next-line no-unused-vars
   const [isAuth, setIsAuth] = auth;
+  // eslint-disable-next-line no-unused-vars
   const [userData, setUserData] = user;
 
   const history = useHistory();

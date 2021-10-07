@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import { ReportContext } from '../../context/ReportContext';
 
 // import Box from '@mui/material/Box';
 // import Paper from '@mui/material/Paper';
@@ -8,17 +9,24 @@ import Button from '@mui/material/Button';
 import { FormSelect, Textfield, FormCheckbox } from './';
 
 const RenderedForm = (props) => {
-  const [reportData, setReportData] = useState({});
+  const { data } = useContext(ReportContext);
+  const [formData, setFormData] = useState({});
+  // eslint-disable-next-line no-unused-vars
+  const [reportData, setReportData] = data;
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log(reportData);
+    console.log(formData);
+    setReportData((prevState) => ({
+      ...prevState,
+      formResponse: formData,
+    }));
   };
 
   const handleChange = (data) => {
     const value = Object.values(data);
     const key = Object.keys(data);
-    setReportData((prevState) => ({
+    setFormData((prevState) => ({
       ...prevState,
       [key[0]]: value[0],
     }));
@@ -70,7 +78,7 @@ const RenderedForm = (props) => {
               fullWidth
               onClick={(event) => handleSubmit(event)}
             >
-              Submit
+              Save
             </Button>
           </Grid>
         </Grid>
