@@ -5,13 +5,13 @@ export const ReportContext = createContext();
 export const ReportProvider = (props) => {
   const [start, setStart] = useState(false);
   const [selectedLocation, setSelectedLocation] = useState('');
-  const [checkedIn, setCheckedIn] = useState(false);
+  const [checkedIn, setCheckedIn] = useState({});
   const [selectedBrand, setSelectedBrand] = useState('');
   const [brandProducts, setBrandProducts] = useState([]);
   const [reportQuestions, setReportQuestions] = useState([]);
   const [reportData, setReportData] = useState({});
   const [showFinished, setShowFinished] = useState(false);
-  const [checkedOut, setCheckedOut] = useState(false);
+  const [checkedOut, setCheckedOut] = useState({});
 
   return (
     <ReportContext.Provider
