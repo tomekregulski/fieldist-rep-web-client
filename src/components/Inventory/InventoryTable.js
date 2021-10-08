@@ -56,6 +56,7 @@ const InventoryTable = (props) => {
               <TableHead>
                 <TableRow>
                   <TableCell>Product</TableCell>
+                  {/* map function to render columns based on brand's (eventually campaign) preferences */}
                   <TableCell align='right'>Inventory</TableCell>
                 </TableRow>
               </TableHead>
