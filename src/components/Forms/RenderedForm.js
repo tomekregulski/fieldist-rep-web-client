@@ -9,7 +9,9 @@ import Button from '@mui/material/Button';
 import { FormSelect, Textfield, FormCheckbox } from './';
 
 const RenderedForm = (props) => {
-  const { data } = useContext(ReportContext);
+  const { data, questions } = useContext(ReportContext);
+  const [reportQuestions, setReportQuestions] = questions;
+
   const [formData, setFormData] = useState({});
   // eslint-disable-next-line no-unused-vars
   const [reportData, setReportData] = data;
@@ -37,8 +39,8 @@ const RenderedForm = (props) => {
       <h2> Event Questions</h2>
       <form action='/my-handling-form-page' method='post'>
         <Grid container spacing={2}>
-          {props
-            ? props.data.map((item, index) => {
+          {reportQuestions
+            ? reportQuestions.map((item, index) => {
                 if (item.type === 'text') {
                   return (
                     <Grid item xs={8} key={index}>

@@ -3,6 +3,7 @@ import { ReportContext } from '../context/ReportContext';
 
 import { FormSelect } from '../components/Forms';
 import { Inventory } from '../components/Inventory';
+import SectionCard from '../components/SectionCard/SectionCard';
 
 import RenderedForm from '../components/Forms/RenderedForm';
 import Grid from '@mui/material/Grid';
@@ -16,6 +17,8 @@ const stores = [
   'Whole Foods Market - Tribeca',
   'Whole Foods Market - Bryant Park',
 ];
+
+const sections = ['Inventory', 'Form Response', 'Photos', 'Expenses'];
 
 const Reports = () => {
   const {
@@ -33,6 +36,7 @@ const Reports = () => {
   const [selectedLocation, setSelectedLocation] = location;
   const [checkedIn, setCheckedIn] = clockIn;
   const [selectedBrand, setSelectedBrand] = brand;
+  // eslint-disable-next-line no-unused-vars
   const [brandProducts, setBrandProducts] = products;
   const [reportQuestions, setReportQuestions] = questions;
   const [showFinished, setShowFinished] = finished;
@@ -67,7 +71,12 @@ const Reports = () => {
   };
 
   const handleCheckIn = () => {
-    setCheckedIn(true);
+    navigator.geolocation.getCurrentPosition((position) => {
+      const lat = position.coords.latitude;
+      const lon = position.coords.longitude;
+      const timestamp = position.timestamp;
+      setCheckedIn({ lat, lon, timestamp });
+    });
   };
 
   const handleSubmitReport = () => {
@@ -76,8 +85,13 @@ const Reports = () => {
   };
 
   const handleCheckOut = () => {
-    setCheckedOut(true);
-    window.location.reload();
+    navigator.geolocation.getCurrentPosition((position) => {
+      const lat = position.coords.latitude;
+      const lon = position.coords.longitude;
+      const timestamp = position.timestamp;
+      setCheckedOut({ lat, lon, timestamp });
+      window.location.reload();
+    });
   };
 
   const resetForm = () => {
@@ -90,13 +104,13 @@ const Reports = () => {
 
   return (
     <Grid style={{ margin: '50px' }}>
-      <Grid item xs={8}>
+      <Grid style={{ display: 'block', margin: '0 auto' }} item xs={8}>
         <Button variant='outlined' fullWidth onClick={() => handleStart()}>
           Start New Store Visit
         </Button>
       </Grid>
       {start === true ? (
-        <Grid item xs={8}>
+        <Grid style={{ margin: '0 auto' }} item xs={8}>
           <FormSelect
             callback={handleStoreSelect}
             data={stores}
@@ -107,14 +121,14 @@ const Reports = () => {
         </Grid>
       ) : null}
       {selectedLocation !== '' ? (
-        <Grid style={{ marginTop: '15px' }} item xs={8}>
+        <Grid style={{ margin: '15px auto 0' }} item xs={8}>
           <Button variant='outlined' fullWidth onClick={() => handleCheckIn()}>
             Check In
           </Button>
         </Grid>
       ) : null}
-      {checkedIn === true ? (
-        <Grid item xs={8}>
+      {checkedIn.lat ? (
+        <Grid style={{ margin: '0 auto' }} item xs={8}>
           <FormSelect
             callback={brandSelect}
             data={formData.brands}
@@ -123,15 +137,13 @@ const Reports = () => {
           />
         </Grid>
       ) : null}
-      {reportQuestions.length ? (
-        <Grid style={{ marginTop: '40px' }}>
-          <h2>--- {selectedBrand} Report Form ---</h2>
-          <Inventory data={brandProducts} />
-          <RenderedForm data={reportQuestions} brand={brand} />
-        </Grid>
-      ) : null}
+      {reportQuestions.length
+        ? sections.map((section, index) => (
+            <SectionCard title={section} key={index} />
+          ))
+        : null}
       {data[0].formResponse ? (
-        <Grid style={{ marginTop: '15px' }} item xs={8}>
+        <Grid style={{ margin: '15px auto 0' }} item xs={8}>
           <Button
             variant='outlined'
             fullWidth
@@ -143,13 +155,15 @@ const Reports = () => {
       ) : null}
       {showFinished === true ? (
         <Grid>
-          <p>Do you have another form to submit at this location?</p>
-          <Grid style={{ marginTop: '15px' }} item xs={8}>
+          <p style={{ textAlign: 'center' }}>
+            Do you have another form to submit at this location?
+          </p>
+          <Grid style={{ margin: '15px auto 0' }} item xs={8}>
             <Button variant='outlined' fullWidth onClick={() => resetForm()}>
               Yes
             </Button>
           </Grid>
-          <Grid style={{ marginTop: '15px' }} item xs={8}>
+          <Grid style={{ margin: '15px auto 0' }} item xs={8}>
             <Button
               variant='outlined'
               fullWidth
@@ -161,7 +175,7 @@ const Reports = () => {
         </Grid>
       ) : null}
       {showClockOut === true ? (
-        <Grid style={{ marginTop: '15px' }} item xs={8}>
+        <Grid style={{ margin: '15px auto 0' }} item xs={8}>
           <Button variant='outlined' fullWidth onClick={() => handleCheckOut()}>
             Check Out
           </Button>

@@ -54,6 +54,14 @@ const formData = {
       products: ['roja', 'verde'],
     },
   ],
+  columns: [
+    {
+      Simmer: ['inventory'],
+    },
+    {
+      Saso: ['inventory', 'price'],
+    },
+  ],
 };
 
 export default formData;
