@@ -13,6 +13,8 @@ export const ReportProvider = (props) => {
   const [showFinished, setShowFinished] = useState(false);
   const [checkedOut, setCheckedOut] = useState({});
 
+  const [reportExpenses, setReportExpenses] = useState([]);
+
   return (
     <ReportContext.Provider
       value={{
@@ -25,6 +27,7 @@ export const ReportProvider = (props) => {
         data: [reportData, setReportData],
         finished: [showFinished, setShowFinished],
         clockOut: [checkedOut, setCheckedOut],
+        expenses: [reportExpenses, setReportExpenses],
       }}
     >
       {props.children}

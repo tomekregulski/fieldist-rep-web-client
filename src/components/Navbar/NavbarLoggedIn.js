@@ -25,14 +25,6 @@ const NavbarLoggedIn = (props) => {
           />
         </Link>
         <div>
-          {/* <Button
-            style={{ marginTop: '15px' }}
-            variant='outlined'
-            fullWidth
-            onClick={handleClose}
-          >
-            Close
-          </Button> */}
           <Button
             variant='outlined'
             style={{ marginRight: '15px' }}

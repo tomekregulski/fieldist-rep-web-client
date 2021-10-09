@@ -71,12 +71,13 @@ const Reports = () => {
   };
 
   const handleCheckIn = () => {
-    navigator.geolocation.getCurrentPosition((position) => {
-      const lat = position.coords.latitude;
-      const lon = position.coords.longitude;
-      const timestamp = position.timestamp;
-      setCheckedIn({ lat, lon, timestamp });
-    });
+    setCheckedIn({ lat: 123, lon: 456, timestamp: 789 });
+    // navigator.geolocation.getCurrentPosition((position) => {
+    //   const lat = position.coords.latitude;
+    //   const lon = position.coords.longitude;
+    //   const timestamp = position.timestamp;
+    //   setCheckedIn({ lat, lon, timestamp });
+    // });
   };
 
   const handleSubmitReport = () => {

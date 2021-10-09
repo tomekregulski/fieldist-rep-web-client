@@ -10,6 +10,15 @@ export const AuthProvider = (props) => {
     console.log('auth effect');
     if (JSON.parse(localStorage.getItem('user'))) {
       setIsAuth(true);
+      const user = JSON.parse(localStorage.getItem('user'));
+
+      setUserData({
+        id: user.id,
+        first_name: user.first_name,
+        last_name: user.last_name,
+        roles: user.roles,
+        brand_id: user.brand_id,
+      });
     }
   }, []);
 

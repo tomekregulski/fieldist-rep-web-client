@@ -4,8 +4,6 @@ import { AuthContext } from '../context/AuthContext';
 const Dashboard = () => {
   const { user } = useContext(AuthContext);
 
-  console.log(user);
-
   return (
     <div>
       <h1>Welcome Back {user[0].first_name && user[0].first_name}!</h1>

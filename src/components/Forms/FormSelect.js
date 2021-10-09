@@ -18,7 +18,7 @@ const FormSelect = (props) => {
 
   return (
     <Box sx={{ minWidth: 120 }}>
-      <p>{props.question}</p>
+      <p>{props.question !== 'expense type' && props.question}</p>
       <FormControl fullWidth>
         <InputLabel id='demo-simple-select-label'>{label}</InputLabel>
         <Select
