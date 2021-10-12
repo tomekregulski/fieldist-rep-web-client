@@ -53,18 +53,17 @@ const Expenses = () => {
       ) : null}
       {reportData.expenses && console.log(reportData.expenses)}
       {reportData.expenses
-        ? reportData.expenses.map(
-            (expense, index) => (
-              <p key={index}>
-                Type: {expense.expenseType} | Amount: ${expense.expenseAmount} |
-                Notes:
-                {expense.expenseNotes.length < 10
+        ? reportData.expenses.map((expense, index) => (
+            <p key={index}>
+              Type: {expense.expenseType} | Amount: ${expense.expenseAmount} |
+              Notes:
+              {expense.expenseNotes
+                ? expense.expenseNotes.length < 10
                   ? expense.expenseNotes
-                  : expense.expenseNotes.substring(0, 10) + '...'}
-              </p>
-            )
-            // console.log(expense.expenseAmount)
-          )
+                  : expense.expenseNotes.substring(0, 10) + '...'
+                : ' N/A'}
+            </p>
+          ))
         : null}
     </div>
   );

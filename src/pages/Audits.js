@@ -9,6 +9,8 @@ import RenderedForm from '../components/Forms/RenderedForm';
 import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
 
+import axios from 'axios';
+
 import formData from '../formData';
 
 const stores = [
@@ -61,6 +63,12 @@ const Reports = () => {
     }
   };
 
+  useEffect(() => {
+    axios
+      .get('http://localhost:5001/api/reports')
+      .then((response) => console.log(JSON.parse(response.data[4].response)));
+  }, []);
+
   const handleStart = () => {
     setStart(true);
   };
@@ -81,8 +89,31 @@ const Reports = () => {
   };
 
   const handleSubmitReport = () => {
-    console.log(data[0]);
-    setShowFinished(true);
+    // const data = {}
+    const general = {
+      date: 'date',
+      time: 'time',
+      brand: selectedBrand,
+      campaign: 'campaign',
+      // checkin: checkedIn,
+      // checkout: checkedOut,
+      location: selectedLocation,
+    };
+    data[0].general = general;
+    data[0].photos = [1234567, 1234567, 12345678];
+    const payload = {
+      general: JSON.stringify(data[0].general),
+      response: JSON.stringify(data[0].formResponse),
+      inventory: JSON.stringify(data[0].inventory),
+      photos: JSON.stringify(data[0].photos),
+      expenses: JSON.stringify(data[0].expenses),
+    };
+
+    axios
+      .post('http://127.0.0.1:5001/api/reports', {
+        payload,
+      })
+      .then(setShowFinished(true));
   };
 
   const handleCheckOut = () => {
