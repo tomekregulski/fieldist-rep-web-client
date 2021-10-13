@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
+import { SessionContext } from '../context/SessionContext';
 import { ReportContext } from '../context/ReportContext';
 
 import { FormSelect } from '../components/Forms';
@@ -14,32 +15,36 @@ const sections = ['Inventory', 'Form Response', 'Photos', 'Expenses'];
 const Reports = () => {
   const {
     // begin,
-    locationList,
+    currentDate,
     clockIn,
+    locationList,
     location,
     brandsData,
     brandNames,
-    brand,
-    products,
-    questions,
-    data,
-    finished,
     clockOut,
-  } = useContext(ReportContext);
+    totalForms,
+  } = useContext(SessionContext);
+
+  const { brand, products, questions, expenses, data, finished } =
+    useContext(ReportContext);
+
   // const [start, setStart] = begin;
+  const [checkedIn, setCheckedIn] = clockIn;
+  const [date, setDate] = currentDate;
   const [venues, setVenues] = locationList;
   const [selectedLocation, setSelectedLocation] = location;
-  const [checkedIn, setCheckedIn] = clockIn;
   const [brands, setBrands] = brandsData;
   const [brandList, setBrandList] = brandNames;
   const [selectedBrand, setSelectedBrand] = brand;
   // eslint-disable-next-line no-unused-vars
   const [brandProducts, setBrandProducts] = products;
   const [reportQuestions, setReportQuestions] = questions;
+  const [reportExpenses, setReportExpenses] = expenses;
   const [showFinished, setShowFinished] = finished;
   // eslint-disable-next-line no-unused-vars
   const [reportData, setReportData] = data;
   // eslint-disable-next-line no-unused-vars
+  const [formsSubmitted, setFormsSubmitted] = totalForms;
   const [checkedOut, setCheckedOut] = clockOut;
 
   const [showClockOut, setShowClockOut] = useState(false);
@@ -53,6 +58,20 @@ const Reports = () => {
 
   const handleStart = () => {
     setVenues([]);
+    function formatDate(date, format) {
+      const map = {
+        mm: date.getMonth() + 1,
+        dd: date.getDate(),
+        yy: date.getFullYear().toString().slice(-2),
+        yyyy: date.getFullYear(),
+      };
+
+      return format.replace(/mm|dd|yy|yyy/gi, (matched) => map[matched]);
+    }
+
+    const today = new Date();
+    setDate(formatDate(today, 'mm/dd/yy'));
+
     axios
       .get(
         // 'http://localhost:5001/api/venues'
@@ -73,13 +92,13 @@ const Reports = () => {
 
   const handleCheckIn = () => {
     setBrandList([]);
-    setCheckedIn({ lat: 123, lon: 456, timestamp: 789 });
-    // navigator.geolocation.getCurrentPosition((position) => {
-    //   const lat = position.coords.latitude;
-    //   const lon = position.coords.longitude;
-    //   const timestamp = position.timestamp;
-    //   setCheckedIn({ lat, lon, timestamp });
-    // });
+    // setCheckedIn({ lat: 123, lon: 456, timestamp: 789 });
+    navigator.geolocation.getCurrentPosition((position) => {
+      const lat = position.coords.latitude;
+      const lon = position.coords.longitude;
+      const timestamp = position.timestamp;
+      setCheckedIn({ lat, lon, timestamp });
+    });
     axios
       .get(
         // 'http://localhost:5001/api/brands'
@@ -105,27 +124,15 @@ const Reports = () => {
   };
 
   const handleSubmitReport = () => {
-    function formatDate(date, format) {
-      const map = {
-        mm: date.getMonth() + 1,
-        dd: date.getDate(),
-        yy: date.getFullYear().toString().slice(-2),
-        yyyy: date.getFullYear(),
-      };
-
-      return format.replace(/mm|dd|yy|yyy/gi, (matched) => map[matched]);
-    }
-
+    setFormsSubmitted((prevState) => [...prevState, selectedBrand]);
     const today = new Date();
-    const submitDate = formatDate(today, 'mm/dd/yy');
-
     const hours = today.getHours();
     const minutes = today.getMinutes();
     const submitTime = `${hours}:${minutes}`;
 
     console.log(submitTime);
     const general = {
-      date: submitDate,
+      date: date,
       time: submitTime,
       brand: selectedBrand,
       campaign: 'WFM Audits',
@@ -158,7 +165,16 @@ const Reports = () => {
       const lon = position.coords.longitude;
       const timestamp = position.timestamp;
       setCheckedOut({ lat, lon, timestamp });
-      window.location.reload();
+      const totalSessionTime = (timestamp - checkedIn.timestamp) / 1000 / 60;
+      console.log({
+        date: date,
+        location: selectedLocation,
+        check_in: checkedIn,
+        totalForms: formsSubmitted,
+        check_out: { lat, lon, timestamp },
+        totalTime: totalSessionTime,
+      });
+      // window.location.reload();
     });
   };
 
@@ -166,8 +182,10 @@ const Reports = () => {
     setSelectedBrand('');
     setBrandProducts([]);
     setReportQuestions([]);
+    // setReportPhotos([]);
+    setReportExpenses([]);
     setReportData({});
-    setShowFinished(false);
+    // setShowFinished(false);
   };
 
   return (
