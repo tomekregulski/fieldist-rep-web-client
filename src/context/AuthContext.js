@@ -7,7 +7,6 @@ export const AuthProvider = (props) => {
   const [userData, setUserData] = useState({});
 
   useEffect(() => {
-    console.log('auth effect');
     if (JSON.parse(localStorage.getItem('user'))) {
       setIsAuth(true);
       const user = JSON.parse(localStorage.getItem('user'));
