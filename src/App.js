@@ -5,7 +5,7 @@ import { ReportProvider } from './context/ReportContext';
 
 import NavbarSwitch from './components/Navbar/NavbarSwitch';
 import { Login, Audits } from './pages';
-import ProtectedRoute from './ProtectedRoute';
+// import ProtectedRoute from './ProtectedRoute';
 
 function App() {
   return (
@@ -14,8 +14,7 @@ function App() {
       <Switch>
         <SessionProvider>
           <ReportProvider>
-            {/* <ProtectedRoute exact path={'/'} component={Dashboard} /> */}
-            <ProtectedRoute exact path={'/'} component={Audits} />
+            <Route exact path={'/'} component={Audits} />
             <Route exact path='/login' component={Login} />
           </ReportProvider>
         </SessionProvider>

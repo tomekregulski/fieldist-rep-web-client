@@ -21,7 +21,7 @@ function NavbarSwitch() {
   if (isAuth === true) {
     return <NavbarLoggedIn handleLogout={handleLogout} />;
   } else {
-    return <NavbarLoggedOut />;
+    return null;
   }
 }
 
