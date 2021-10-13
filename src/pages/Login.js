@@ -8,7 +8,7 @@ import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
 
-// import image from '../../images/intelly_logo.png';
+import image from '../images/intelly_logo.png';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -64,9 +64,9 @@ const Login = () => {
             display: 'block',
             width: '200px',
             margin: '0 auto 50px',
-            paddingTop: '160px',
+            paddingTop: '120px',
           }}
-          // src={image}
+          src={image}
           alt='Intelly'
         />
       </div>

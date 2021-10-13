@@ -1,8 +1,6 @@
 import * as React from 'react';
 import SectionModal from '../SectionModal/SectionModal';
 
-import Grid from '@mui/material/Grid';
-
 const SectionCard = (props) => {
   return (
     <div
