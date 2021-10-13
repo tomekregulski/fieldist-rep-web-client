@@ -2,31 +2,23 @@ import React, { useState, useEffect, useContext } from 'react';
 import { ReportContext } from '../context/ReportContext';
 
 import { FormSelect } from '../components/Forms';
-import { Inventory } from '../components/Inventory';
 import SectionCard from '../components/SectionCard/SectionCard';
 
-import RenderedForm from '../components/Forms/RenderedForm';
 import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
 
 import axios from 'axios';
 
-import formData from '../formData';
-
-const stores = [
-  'Whole Foods Market - Upper West Side',
-  'Whole Foods Market - Columbus Circle',
-  'Whole Foods Market - Tribeca',
-  'Whole Foods Market - Bryant Park',
-];
-
 const sections = ['Inventory', 'Form Response', 'Photos', 'Expenses'];
 
 const Reports = () => {
   const {
-    begin,
+    // begin,
+    locationList,
     clockIn,
     location,
+    brandsData,
+    brandNames,
     brand,
     products,
     questions,
@@ -34,9 +26,12 @@ const Reports = () => {
     finished,
     clockOut,
   } = useContext(ReportContext);
-  const [start, setStart] = begin;
+  // const [start, setStart] = begin;
+  const [venues, setVenues] = locationList;
   const [selectedLocation, setSelectedLocation] = location;
   const [checkedIn, setCheckedIn] = clockIn;
+  const [brands, setBrands] = brandsData;
+  const [brandList, setBrandList] = brandNames;
   const [selectedBrand, setSelectedBrand] = brand;
   // eslint-disable-next-line no-unused-vars
   const [brandProducts, setBrandProducts] = products;
@@ -50,27 +45,25 @@ const Reports = () => {
   const [showClockOut, setShowClockOut] = useState(false);
 
   useEffect(() => {
-    selectedBrand !== '' && setReportQuestions(formData[selectedBrand]);
-  }, [brand, selectedBrand, setReportQuestions, setSelectedBrand]);
-
-  const brandSelect = (data) => {
-    const value = Object.values(data);
-    setSelectedBrand(value[0]);
-    for (let i = 0; i < formData.products.length; i++) {
-      if (formData.products[i].name === value[0]) {
-        setBrandProducts(formData.products[i].products);
-      }
-    }
-  };
-
-  useEffect(() => {
-    axios
-      .get('http://localhost:5001/api/reports')
-      .then((response) => console.log(JSON.parse(response.data[4].response)));
-  }, []);
+    brands.length &&
+      brands.map((brand) => {
+        setBrandList((prevState) => [...prevState, brand.name]);
+      });
+  }, [brands, setBrands]);
 
   const handleStart = () => {
-    setStart(true);
+    setVenues([]);
+    axios
+      .get(
+        // 'http://localhost:5001/api/venues'
+        'https://fieldist-back-end.herokuapp.com/api/venues'
+      )
+      .then((response) =>
+        response.data.map((venue) => {
+          const store = `${venue.name} + ${venue.address}`;
+          setVenues((prevState) => [...prevState, store]);
+        })
+      );
   };
 
   const handleStoreSelect = (data) => {
@@ -79,6 +72,7 @@ const Reports = () => {
   };
 
   const handleCheckIn = () => {
+    setBrandList([]);
     setCheckedIn({ lat: 123, lon: 456, timestamp: 789 });
     // navigator.geolocation.getCurrentPosition((position) => {
     //   const lat = position.coords.latitude;
@@ -86,17 +80,55 @@ const Reports = () => {
     //   const timestamp = position.timestamp;
     //   setCheckedIn({ lat, lon, timestamp });
     // });
+    axios
+      .get(
+        // 'http://localhost:5001/api/brands'
+        'https://fieldist-back-end.herokuapp.com/api/brands'
+      )
+      .then((response) => setBrands(response.data));
+  };
+
+  const brandSelect = (data) => {
+    setBrandProducts([]);
+    const value = Object.values(data);
+    const payload = brands.filter((brand) => value[0] === brand.name);
+    console.log(payload[0]);
+    setSelectedBrand(payload[0].name);
+    setReportQuestions(JSON.parse(payload[0].report_questions[0].questions));
+
+    for (let i = 0; i < payload[0].products.length; i++) {
+      setBrandProducts((prevState) => [
+        ...prevState,
+        payload[0].products[i].name,
+      ]);
+    }
   };
 
   const handleSubmitReport = () => {
-    // const data = {}
+    function formatDate(date, format) {
+      const map = {
+        mm: date.getMonth() + 1,
+        dd: date.getDate(),
+        yy: date.getFullYear().toString().slice(-2),
+        yyyy: date.getFullYear(),
+      };
+
+      return format.replace(/mm|dd|yy|yyy/gi, (matched) => map[matched]);
+    }
+
+    const today = new Date();
+    const submitDate = formatDate(today, 'mm/dd/yy');
+
+    const hours = today.getHours();
+    const minutes = today.getMinutes();
+    const submitTime = `${hours}:${minutes}`;
+
+    console.log(submitTime);
     const general = {
-      date: 'date',
-      time: 'time',
+      date: submitDate,
+      time: submitTime,
       brand: selectedBrand,
-      campaign: 'campaign',
-      // checkin: checkedIn,
-      // checkout: checkedOut,
+      campaign: 'WFM Audits',
       location: selectedLocation,
     };
     data[0].general = general;
@@ -110,9 +142,13 @@ const Reports = () => {
     };
 
     axios
-      .post('http://127.0.0.1:5001/api/reports', {
-        payload,
-      })
+      .post(
+        // 'http://127.0.0.1:5001/api/reports', {
+        'https://fieldist-back-end.herokuapp.com/api/reports',
+        {
+          payload,
+        }
+      )
       .then(setShowFinished(true));
   };
 
@@ -141,11 +177,11 @@ const Reports = () => {
           Start New Store Visit
         </Button>
       </Grid>
-      {start === true ? (
+      {venues.length ? (
         <Grid style={{ margin: '0 auto' }} item xs={8}>
           <FormSelect
             callback={handleStoreSelect}
-            data={stores}
+            data={venues}
             label='stores'
             question={'Select a Location'}
             value={selectedLocation}
@@ -159,11 +195,11 @@ const Reports = () => {
           </Button>
         </Grid>
       ) : null}
-      {checkedIn.lat ? (
+      {checkedIn.lat && brandList.length ? (
         <Grid style={{ margin: '0 auto' }} item xs={8}>
           <FormSelect
             callback={brandSelect}
-            data={formData.brands}
+            data={brandList}
             label='brands'
             value={brand}
           />

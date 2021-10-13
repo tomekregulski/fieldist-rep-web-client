@@ -32,12 +32,12 @@ const NavbarLoggedIn = (props) => {
           >
             Logout
           </Button>
-          <Link
+          {/* <Link
             style={{ marginRight: '30px', textDecoration: 'none' }}
             to='/store-visits'
           >
             <Button variant='outlined'>Store Visits</Button>
-          </Link>
+          </Link> */}
         </div>
       </nav>
       <div
