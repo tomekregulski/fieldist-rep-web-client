@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
+import { AuthContext } from '../context/AuthContext';
 import { SessionContext } from '../context/SessionContext';
 import { ReportContext } from '../context/ReportContext';
 
@@ -13,6 +14,7 @@ import axios from 'axios';
 const sections = ['Inventory', 'Form Response', 'Photos', 'Expenses'];
 
 const Reports = () => {
+  const { user } = useContext(AuthContext);
   const {
     // begin,
     currentDate,
@@ -27,6 +29,8 @@ const Reports = () => {
 
   const { brand, products, questions, expenses, data, finished } =
     useContext(ReportContext);
+
+  const [userData, setUserData] = user;
 
   // const [start, setStart] = begin;
   const [checkedIn, setCheckedIn] = clockIn;
@@ -79,7 +83,7 @@ const Reports = () => {
       )
       .then((response) =>
         response.data.map((venue) => {
-          const store = `${venue.name} + ${venue.address}`;
+          const store = `${venue.name}`;
           setVenues((prevState) => [...prevState, store]);
         })
       );
@@ -87,7 +91,14 @@ const Reports = () => {
 
   const handleStoreSelect = (data) => {
     const value = Object.values(data)[0];
-    setSelectedLocation(value);
+    axios
+      .get('http://localhost:5001/api/venues/name', {
+        // 'https://fieldist-back-end.herokuapp.com/api/venues/name', {
+        headers: {
+          name: value,
+        },
+      })
+      .then((response) => setSelectedLocation(response.data[0]));
   };
 
   const handleCheckIn = () => {
@@ -97,7 +108,33 @@ const Reports = () => {
       const lat = position.coords.latitude;
       const lon = position.coords.longitude;
       const timestamp = position.timestamp;
-      setCheckedIn({ lat, lon, timestamp });
+      const storeLat = selectedLocation.geometry.lat;
+      const storeLon = selectedLocation.geometry.lng;
+      function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
+        var R = 6371; // Radius of the earth in km
+        var dLat = deg2rad(lat2 - lat1); // deg2rad below
+        var dLon = deg2rad(lon2 - lon1);
+        var a =
+          Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+          Math.cos(deg2rad(lat1)) *
+            Math.cos(deg2rad(lat2)) *
+            Math.sin(dLon / 2) *
+            Math.sin(dLon / 2);
+        var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        var d = R * c; // Distance in km
+        return d;
+      }
+
+      function deg2rad(deg) {
+        return deg * (Math.PI / 180);
+      }
+      const distance =
+        getDistanceFromLatLonInKm(lat, lon, storeLat, storeLon) / 1.609;
+      console.log(storeLat, storeLon);
+      console.log(distance);
+      distance < 8
+        ? setCheckedIn({ lat, lon, timestamp })
+        : console.log('Please try again when you are closer to the venue');
     });
     axios
       .get(
@@ -132,11 +169,12 @@ const Reports = () => {
 
     console.log(submitTime);
     const general = {
+      rep: `${user.first_name} ${user.last_name}`,
       date: date,
       time: submitTime,
       brand: selectedBrand,
       campaign: 'WFM Audits',
-      location: selectedLocation,
+      location: selectedLocation.name,
     };
     data[0].general = general;
     data[0].photos = [1234567, 1234567, 12345678];
@@ -167,8 +205,9 @@ const Reports = () => {
       setCheckedOut({ lat, lon, timestamp });
       const totalSessionTime = (timestamp - checkedIn.timestamp) / 1000 / 60;
       console.log({
+        rep: `${user.first_name} ${user.last_name}`,
         date: date,
-        location: selectedLocation,
+        location: selectedLocation.name,
         check_in: checkedIn,
         totalForms: formsSubmitted,
         check_out: { lat, lon, timestamp },
@@ -202,7 +241,7 @@ const Reports = () => {
             data={venues}
             label='stores'
             question={'Select a Location'}
-            value={selectedLocation}
+            value={selectedLocation.name}
           />
         </Grid>
       ) : null}
