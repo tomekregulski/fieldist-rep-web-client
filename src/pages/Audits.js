@@ -130,8 +130,6 @@ const Reports = () => {
       }
       const distance =
         getDistanceFromLatLonInKm(lat, lon, storeLat, storeLon) / 1.609;
-      console.log(storeLat, storeLon);
-      console.log(distance);
       distance < 8
         ? setCheckedIn({ lat, lon, timestamp })
         : console.log('Please try again when you are closer to the venue');
@@ -148,7 +146,6 @@ const Reports = () => {
     setBrandProducts([]);
     const value = Object.values(data);
     const payload = brands.filter((brand) => value[0] === brand.name);
-    console.log(payload[0]);
     setSelectedBrand(payload[0].name);
     setReportQuestions(JSON.parse(payload[0].report_questions[0].questions));
 
@@ -167,10 +164,9 @@ const Reports = () => {
     const minutes = today.getMinutes();
     const submitTime = `${hours}:${minutes}`;
 
-    console.log(submitTime);
     const general = {
-      rep: `${user.first_name} ${user.last_name}`,
-      date: date,
+      rep: `${user[0].first_name} ${user[0].last_name}`,
+      rep_id: user[0].id,
       time: submitTime,
       brand: selectedBrand,
       campaign: 'WFM Audits',
@@ -185,7 +181,6 @@ const Reports = () => {
       photos: JSON.stringify(data[0].photos),
       expenses: JSON.stringify(data[0].expenses),
     };
-
     axios
       .post(
         // 'http://127.0.0.1:5001/api/reports', {
@@ -204,16 +199,32 @@ const Reports = () => {
       const timestamp = position.timestamp;
       setCheckedOut({ lat, lon, timestamp });
       const totalSessionTime = (timestamp - checkedIn.timestamp) / 1000 / 60;
-      console.log({
-        rep: `${user.first_name} ${user.last_name}`,
+      const sessionData = {
+        rep: `${user[0].first_name} ${user[0].last_name}`,
+        rep_id: user[0].id,
         date: date,
         location: selectedLocation.name,
         check_in: checkedIn,
         totalForms: formsSubmitted,
         check_out: { lat, lon, timestamp },
         totalTime: totalSessionTime,
-      });
-      // window.location.reload();
+      };
+      const payload = {
+        session_info: JSON.stringify(sessionData),
+        user_id: user[0].id,
+      };
+      axios
+        .post(
+          // 'http://127.0.0.1:5001/api/session',
+          'https://fieldist-back-end.herokuapp.com/api/session',
+          {
+            payload,
+          }
+        )
+        .then(
+          console.log('Session Successfully Completed')
+          // window.location.reload()
+        );
     });
   };
 
