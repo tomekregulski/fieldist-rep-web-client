@@ -6,12 +6,52 @@ import { ReportContext } from '../context/ReportContext';
 import { FormSelect } from '../components/Forms';
 import SectionCard from '../components/SectionCard/SectionCard';
 
+import { styled } from '@mui/material/styles';
 import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
 
 import axios from 'axios';
 
 const sections = ['Inventory', 'Form Response', 'Photos', 'Expenses'];
+
+const ButtonMain = styled(Button)({
+  boxShadow: 'none',
+  display: 'block',
+  margin: '20px auto 20px',
+  textTransform: 'none',
+  fontSize: 16,
+  padding: '6px 12px',
+  border: '1px solid',
+  lineHeight: 1.5,
+  backgroundColor: '#fff',
+  borderColor: '#0063cc',
+  width: '280px',
+  fontFamily: [
+    '-apple-system',
+    'BlinkMacSystemFont',
+    '"Segoe UI"',
+    'Roboto',
+    '"Helvetica Neue"',
+    'Arial',
+    'sans-serif',
+    '"Apple Color Emoji"',
+    '"Segoe UI Emoji"',
+    '"Segoe UI Symbol"',
+  ].join(','),
+  '&:hover': {
+    backgroundColor: '#0069d9',
+    borderColor: '#0062cc',
+    boxShadow: 'none',
+  },
+  '&:active': {
+    boxShadow: 'none',
+    backgroundColor: '#0062cc',
+    borderColor: '#005cbf',
+  },
+  '&:focus': {
+    boxShadow: '0 0 0 0.2rem rgba(0,123,255,.5)',
+  },
+});
 
 const Reports = () => {
   const { user } = useContext(AuthContext);
@@ -239,14 +279,12 @@ const Reports = () => {
   };
 
   return (
-    <Grid style={{ margin: '50px' }}>
-      <Grid style={{ display: 'block', margin: '0 auto' }} item xs={8}>
-        <Button variant='outlined' fullWidth onClick={() => handleStart()}>
-          Start New Store Visit
-        </Button>
-      </Grid>
+    <Grid style={{ marginTop: '30px' }}>
+      <ButtonMain variant='outlined' onClick={() => handleStart()}>
+        Start New Store Visit
+      </ButtonMain>
       {venues.length ? (
-        <Grid style={{ margin: '0 auto' }} item xs={8}>
+        <div style={{ margin: '30px auto', width: '280px' }}>
           <FormSelect
             callback={handleStoreSelect}
             data={venues}
@@ -254,24 +292,26 @@ const Reports = () => {
             question={'Select a Location'}
             value={selectedLocation.name}
           />
-        </Grid>
+        </div>
       ) : null}
       {selectedLocation !== '' ? (
-        <Grid style={{ margin: '15px auto 0' }} item xs={8}>
-          <Button variant='outlined' fullWidth onClick={() => handleCheckIn()}>
-            Check In
-          </Button>
-        </Grid>
+        <ButtonMain
+          variant='outlined'
+          fullWidth
+          onClick={() => handleCheckIn()}
+        >
+          Check In
+        </ButtonMain>
       ) : null}
       {checkedIn.lat && brandList.length ? (
-        <Grid style={{ margin: '0 auto' }} item xs={8}>
+        <div style={{ margin: '30px auto', width: '280px' }}>
           <FormSelect
             callback={brandSelect}
             data={brandList}
             label='brands'
             value={brand}
           />
-        </Grid>
+        </div>
       ) : null}
       {reportQuestions.length
         ? sections.map((section, index) => (
@@ -279,43 +319,35 @@ const Reports = () => {
           ))
         : null}
       {data[0].formResponse ? (
-        <Grid style={{ margin: '15px auto 0' }} item xs={8}>
-          <Button
-            variant='outlined'
-            fullWidth
-            onClick={() => handleSubmitReport()}
-          >
-            Submit Completed Report
-          </Button>
-        </Grid>
+        <ButtonMain variant='outlined' onClick={() => handleSubmitReport()}>
+          Submit Completed Report
+        </ButtonMain>
       ) : null}
       {showFinished === true ? (
         <Grid>
           <p style={{ textAlign: 'center' }}>
             Do you have another form to submit at this location?
           </p>
-          <Grid style={{ margin: '15px auto 0' }} item xs={8}>
-            <Button variant='outlined' fullWidth onClick={() => resetForm()}>
-              Yes
-            </Button>
-          </Grid>
-          <Grid style={{ margin: '15px auto 0' }} item xs={8}>
-            <Button
-              variant='outlined'
-              fullWidth
-              onClick={() => setShowClockOut(true)}
-            >
-              No
-            </Button>
-          </Grid>
+          <ButtonMain variant='outlined' fullWidth onClick={() => resetForm()}>
+            Yes
+          </ButtonMain>
+          <ButtonMain
+            variant='outlined'
+            fullWidth
+            onClick={() => setShowClockOut(true)}
+          >
+            No
+          </ButtonMain>
         </Grid>
       ) : null}
       {showClockOut === true ? (
-        <Grid style={{ margin: '15px auto 0' }} item xs={8}>
-          <Button variant='outlined' fullWidth onClick={() => handleCheckOut()}>
-            Check Out
-          </Button>
-        </Grid>
+        <ButtonMain
+          variant='outlined'
+          fullWidth
+          onClick={() => handleCheckOut()}
+        >
+          Check Out
+        </ButtonMain>
       ) : null}
     </Grid>
   );

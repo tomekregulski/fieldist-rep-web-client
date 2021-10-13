@@ -13,13 +13,17 @@ const NavbarLoggedIn = (props) => {
       <nav
         style={{
           display: 'flex',
+          flexDirection: 'column',
           alignItems: 'center',
-          justifyContent: 'space-between',
+          justifyContent: 'center',
         }}
       >
-        <Link to='/' style={{ marginLeft: '30px' }}>
+        <Link
+          to='/'
+          // style={{ marginLeft: '30px' }}
+        >
           <img
-            style={{ width: '10rem', margin: '.5rem 0 1rem 1rem' }}
+            style={{ width: '10rem', margin: '.5rem 0 .5rem 0' }}
             src={image}
             alt='Intelly'
           />
@@ -27,17 +31,11 @@ const NavbarLoggedIn = (props) => {
         <div>
           <Button
             variant='outlined'
-            style={{ marginRight: '15px' }}
+            style={{ marginBottom: '10px' }}
             onClick={() => handleLogout()}
           >
             Logout
           </Button>
-          {/* <Link
-            style={{ marginRight: '30px', textDecoration: 'none' }}
-            to='/store-visits'
-          >
-            <Button variant='outlined'>Store Visits</Button>
-          </Link> */}
         </div>
       </nav>
       <div
