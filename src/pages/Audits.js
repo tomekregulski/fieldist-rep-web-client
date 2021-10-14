@@ -132,12 +132,15 @@ const Reports = () => {
   const handleStoreSelect = (data) => {
     const value = Object.values(data)[0];
     axios
-      .get('http://localhost:5001/api/venues/name', {
-        // 'https://fieldist-back-end.herokuapp.com/api/venues/name', {
-        headers: {
-          name: value,
-        },
-      })
+      .get(
+        // 'http://localhost:5001/api/venues/name', {
+        'https://fieldist-back-end.herokuapp.com/api/venues/name',
+        {
+          headers: {
+            name: value,
+          },
+        }
+      )
       .then((response) => setSelectedLocation(response.data[0]));
   };
 
