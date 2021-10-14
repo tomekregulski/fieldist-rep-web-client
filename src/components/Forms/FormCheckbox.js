@@ -24,13 +24,12 @@ const FormCheckbox = (props) => {
           {props.data.map((item, index) => {
             let checked = false;
             console.log(item);
-            // if (
-            //   Object.keys(props.value).includes(item) &&
-            //   props.value[item] === true
-            // ) {
-            //   console.log(item, true);
-            //   checked = true;
-            // }
+            if (
+              Object.keys(props.value).includes(item) &&
+              props.value[item] === true
+            ) {
+              checked = true;
+            }
             return (
               <FormControlLabel
                 key={index}

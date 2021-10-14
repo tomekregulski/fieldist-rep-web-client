@@ -20,9 +20,15 @@ const InventoryTable = (props) => {
   // eslint-disable-next-line no-unused-vars
   const [reportData, setReportData] = data;
   console.log(props.data);
+
   useEffect(() => {
-    const items = Object.keys(props.data);
-    setProducts(items);
+    let itemsArr = [];
+    for (const item in props.data) {
+      if (props.data[item] === true) {
+        itemsArr.push(item);
+      }
+    }
+    setProducts(itemsArr);
   }, [props.data]);
 
   const handleInput = (data) => {

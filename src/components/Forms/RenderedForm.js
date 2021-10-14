@@ -27,29 +27,20 @@ const RenderedForm = (props) => {
   const handleCheckChange = (data) => {
     console.log(data);
     let dataArr = formData[data[2]] || [];
-    console.log(dataArr);
+    // console.log(dataArr);
     if (data[1] === true && !dataArr.includes(data[0])) {
       dataArr.push(data[0]);
     }
     if (data[1] === false && dataArr.includes(data[0])) {
       dataArr = dataArr.filter((item) => item !== data[0]);
     }
-    console.log(dataArr);
+    // console.log(dataArr);
     setFormData((prevState) => ({
       ...prevState,
       [data[2]]: dataArr,
     }));
   };
 
-  // data[1] === false && formData[data[2]].includes(data[0])
-  //   ? setFormData((prevState) => ({
-  //       ...prevState,
-  //       [data[2]]: [...dataObj, data[0]],
-  //     }))
-  //   : setFormData((prevState) => ({
-  //       ...prevState,
-  //       [data[2]]: [data[0]],
-  //     }));
   const handleChange = (data) => {
     console.log(data);
     const value = Object.values(data)[0];
@@ -69,23 +60,12 @@ const RenderedForm = (props) => {
             ? reportQuestions.map((item, index) => {
                 let value = '';
                 let valueArray = [];
-                if (reportData.formResponse) {
-                  if (reportData.formResponse.hasOwnProperty(item.question)) {
-                    value = reportData.formResponse[item.question];
-                  }
-                  if (item.type === 'checkbox') {
-                    console.log('checkbox');
-                    // for (let i = 0; i < item.choices.length; i++) {
-                    if (reportData.formResponse.hasOwnProperty(item.question)) {
-                      valueArray = reportData.formResponse[item.question];
-                    }
-                    // }
-                  }
-                  console.log(valueArray);
-                  if (item.type === 'text') {
-                    return <Textfield data={item.content} key={index} />;
-                  }
+                if (formData.hasOwnProperty(item.question)) {
+                  value = formData[item.question];
+                  valueArray = formData[item.question];
                 }
+                // console.log(value);
+                // console.log(valueArray);
                 if (item.type === 'select') {
                   return (
                     <FormSelect

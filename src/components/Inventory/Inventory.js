@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { ReportContext } from '../../context/ReportContext';
 
 import { FormCheckbox } from '../Forms';
@@ -14,6 +14,16 @@ const Inventory = (props) => {
 
   const [selectedProducts, setSelectedProducts] = reportedProducts;
   const [showTable, setShowTable] = useState(false);
+
+  useEffect(() => {
+    if (
+      Object.values(selectedProducts).length &&
+      Object.values(selectedProducts).includes(true)
+    ) {
+      // console.log('SELECTED PRODUCTS');
+      setShowTable(true);
+    }
+  }, [selectedProducts]);
 
   const handleProductSelect = (data) => {
     const value = Object.values(data)[0];
