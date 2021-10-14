@@ -6,31 +6,57 @@ import { ReportContext } from '../../context/ReportContext';
 import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
 
-import { FormSelect, Textfield, FormCheckbox } from './';
+import { FormSelect, Textfield, FormCheckbox, Check } from './';
 
 const RenderedForm = (props) => {
   const { data, questions } = useContext(ReportContext);
   const [reportQuestions, setReportQuestions] = questions;
-
-  const [formData, setFormData] = useState({});
   // eslint-disable-next-line no-unused-vars
   const [reportData, setReportData] = data;
 
+  const [formData, setFormData] = useState(reportData.formResponse || {});
+
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log(formData);
     setReportData((prevState) => ({
       ...prevState,
       formResponse: formData,
     }));
   };
 
+  const handleCheckChange = (data) => {
+    console.log(data);
+    let dataArr = formData[data[2]] || [];
+    console.log(dataArr);
+    if (data[1] === true && !dataArr.includes(data[0])) {
+      dataArr.push(data[0]);
+    }
+    if (data[1] === false && dataArr.includes(data[0])) {
+      dataArr = dataArr.filter((item) => item !== data[0]);
+    }
+    console.log(dataArr);
+    setFormData((prevState) => ({
+      ...prevState,
+      [data[2]]: dataArr,
+    }));
+  };
+
+  // data[1] === false && formData[data[2]].includes(data[0])
+  //   ? setFormData((prevState) => ({
+  //       ...prevState,
+  //       [data[2]]: [...dataObj, data[0]],
+  //     }))
+  //   : setFormData((prevState) => ({
+  //       ...prevState,
+  //       [data[2]]: [data[0]],
+  //     }));
   const handleChange = (data) => {
-    const value = Object.values(data);
+    console.log(data);
+    const value = Object.values(data)[0];
     const key = Object.keys(data);
     setFormData((prevState) => ({
       ...prevState,
-      [key[0]]: value[0],
+      [key]: value,
     }));
   };
 
@@ -41,9 +67,24 @@ const RenderedForm = (props) => {
         <Grid container spacing={2}>
           {reportQuestions
             ? reportQuestions.map((item, index) => {
-                console.log(reportData.formResponse.question);
-                if (item.type === 'text') {
-                  return <Textfield data={item.content} key={index} />;
+                let value = '';
+                let valueArray = [];
+                if (reportData.formResponse) {
+                  if (reportData.formResponse.hasOwnProperty(item.question)) {
+                    value = reportData.formResponse[item.question];
+                  }
+                  if (item.type === 'checkbox') {
+                    console.log('checkbox');
+                    // for (let i = 0; i < item.choices.length; i++) {
+                    if (reportData.formResponse.hasOwnProperty(item.question)) {
+                      valueArray = reportData.formResponse[item.question];
+                    }
+                    // }
+                  }
+                  console.log(valueArray);
+                  if (item.type === 'text') {
+                    return <Textfield data={item.content} key={index} />;
+                  }
                 }
                 if (item.type === 'select') {
                   return (
@@ -53,18 +94,19 @@ const RenderedForm = (props) => {
                       data={item.choices}
                       question={item.question}
                       key={index}
-                      // value={reportData.formResponse.question ? }
+                      value={value}
                     />
                   );
                 }
                 if (item.type === 'checkbox') {
                   return (
-                    <FormCheckbox
-                      callback={handleChange}
+                    <Check
+                      callback={handleCheckChange}
                       label={item.type}
                       data={item.choices}
                       question={item.question}
                       key={index}
+                      value={valueArray}
                     />
                   );
                 }
