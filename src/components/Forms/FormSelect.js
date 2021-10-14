@@ -11,13 +11,18 @@ const FormSelect = (props) => {
   const handleChange = (event) => {
     // event.preventDefault();
     setLabel(event.target.value);
-  };
-
-  const handleSubmit = (event) => {
     props.callback({
       [props.question]: label,
     });
   };
+
+  // const handleSubmit = (event) => {
+  //   props.callback({
+  //     [props.question]: label,
+  //   });
+  //   console.log(label);
+  //   console.log('testing');
+  // };
 
   return (
     <Box sx={{ minWidth: 120 }}>
@@ -37,7 +42,7 @@ const FormSelect = (props) => {
             </MenuItem>
           ))}
         </Select>
-        <button onClick={handleSubmit}>Select</button>
+        {/* <button onClick={handleSubmit}>Select</button> */}
       </FormControl>
     </Box>
   );

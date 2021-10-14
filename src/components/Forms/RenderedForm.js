@@ -42,34 +42,28 @@ const RenderedForm = (props) => {
           {reportQuestions
             ? reportQuestions.map((item, index) => {
                 if (item.type === 'text') {
-                  return (
-                    <Grid item xs={8} key={index}>
-                      <Textfield data={item.content} />
-                    </Grid>
-                  );
+                  return <Textfield data={item.content} key={index} />;
                 }
                 if (item.type === 'select') {
                   return (
-                    <Grid item xs={8} key={index}>
-                      <FormSelect
-                        callback={handleChange}
-                        label={item.type}
-                        data={item.choices}
-                        question={item.question}
-                      />
-                    </Grid>
+                    <FormSelect
+                      callback={handleChange}
+                      label={item.type}
+                      data={item.choices}
+                      question={item.question}
+                      key={index}
+                    />
                   );
                 }
                 if (item.type === 'checkbox') {
                   return (
-                    <Grid item xs={8} key={index}>
-                      <FormCheckbox
-                        callback={handleChange}
-                        label={item.type}
-                        data={item.choices}
-                        question={item.question}
-                      />
-                    </Grid>
+                    <FormCheckbox
+                      callback={handleChange}
+                      label={item.type}
+                      data={item.choices}
+                      question={item.question}
+                      key={index}
+                    />
                   );
                 }
               })
