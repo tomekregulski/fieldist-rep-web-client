@@ -70,6 +70,7 @@ const Reports = () => {
   const { brand, products, questions, expenses, data, finished } =
     useContext(ReportContext);
 
+  // eslint-disable-next-line no-unused-vars
   const [userData, setUserData] = user;
 
   // const [start, setStart] = begin;
@@ -83,12 +84,14 @@ const Reports = () => {
   // eslint-disable-next-line no-unused-vars
   const [brandProducts, setBrandProducts] = products;
   const [reportQuestions, setReportQuestions] = questions;
+  // eslint-disable-next-line no-unused-vars
   const [reportExpenses, setReportExpenses] = expenses;
   const [showFinished, setShowFinished] = finished;
   // eslint-disable-next-line no-unused-vars
   const [reportData, setReportData] = data;
   // eslint-disable-next-line no-unused-vars
   const [formsSubmitted, setFormsSubmitted] = totalForms;
+  // eslint-disable-next-line no-unused-vars
   const [checkedOut, setCheckedOut] = clockOut;
 
   const [showClockOut, setShowClockOut] = useState(false);
@@ -322,7 +325,7 @@ const Reports = () => {
             callback={brandSelect}
             data={brandList}
             label='brands'
-            value={brand}
+            value={selectedBrand}
           />
         </div>
       ) : null}

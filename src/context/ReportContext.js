@@ -4,6 +4,7 @@ export const ReportContext = createContext();
 export const ReportProvider = (props) => {
   const [selectedBrand, setSelectedBrand] = useState('');
   const [brandProducts, setBrandProducts] = useState([]);
+  const [selectedProducts, setSelectedProducts] = useState({});
   const [reportQuestions, setReportQuestions] = useState([]);
   const [reportExpenses, setReportExpenses] = useState([]);
   const [reportData, setReportData] = useState({});
@@ -14,6 +15,7 @@ export const ReportProvider = (props) => {
       value={{
         brand: [selectedBrand, setSelectedBrand],
         products: [brandProducts, setBrandProducts],
+        reportedProducts: [selectedProducts, setSelectedProducts],
         questions: [reportQuestions, setReportQuestions],
         data: [reportData, setReportData],
         finished: [showFinished, setShowFinished],

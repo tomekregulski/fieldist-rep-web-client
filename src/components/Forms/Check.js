@@ -7,13 +7,11 @@ import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 
-const FormCheckbox = (props) => {
-  console.log(props.value);
+const Check = (props) => {
+  console.log(props);
 
   const handleChange = (event) => {
-    props.callback({
-      [event.target.name]: event.target.checked,
-    });
+    props.callback([event.target.name, event.target.checked, props.question]);
   };
 
   return (
@@ -23,11 +21,7 @@ const FormCheckbox = (props) => {
         <FormGroup>
           {props.data.map((item, index) => {
             let checked = false;
-            console.log(item);
-            if (
-              Object.keys(props.value).includes(item) &&
-              props.value[item] === true
-            ) {
+            if (props.value.includes(item)) {
               checked = true;
             }
             return (
@@ -50,4 +44,4 @@ const FormCheckbox = (props) => {
   );
 };
 
-export default FormCheckbox;
+export default Check;

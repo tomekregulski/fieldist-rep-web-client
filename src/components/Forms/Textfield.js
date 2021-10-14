@@ -14,6 +14,7 @@ const Textfield = (props) => {
         onChange={handleInput}
         label={props.data && props.data}
         variant='standard'
+        value={props.value && props.value}
       />
     </div>
   );

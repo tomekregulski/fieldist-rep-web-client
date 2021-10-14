@@ -9,20 +9,11 @@ const FormSelect = (props) => {
   const [label, setLabel] = useState('Select');
 
   const handleChange = (event) => {
-    // event.preventDefault();
     setLabel(event.target.value);
     props.callback({
       [props.question]: event.target.value,
     });
   };
-
-  // const handleSubmit = (event) => {
-  //   props.callback({
-  //     [props.question]: label,
-  //   });
-  //   console.log(label);
-  //   console.log('testing');
-  // };
 
   return (
     <Box sx={{ minWidth: 120 }}>
@@ -32,8 +23,8 @@ const FormSelect = (props) => {
         <Select
           labelId='demo-simple-select-label'
           id='demo-simple-select'
-          value={props.brand || ''}
-          // label={label}
+          defaultValue=''
+          value={props.value || ''}
           onChange={handleChange}
         >
           {props.data.map((item, index) => (
@@ -42,7 +33,6 @@ const FormSelect = (props) => {
             </MenuItem>
           ))}
         </Select>
-        {/* <button onClick={handleSubmit}>Select</button> */}
       </FormControl>
     </Box>
   );

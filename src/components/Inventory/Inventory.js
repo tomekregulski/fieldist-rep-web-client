@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { ReportContext } from '../../context/ReportContext';
 
 import { FormCheckbox } from '../Forms';
@@ -8,28 +8,34 @@ import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
 
 const Inventory = (props) => {
-  const { products } = useContext(ReportContext);
+  const { products, reportedProducts } = useContext(ReportContext);
   // eslint-disable-next-line no-unused-vars
   const [brandProducts, setBrandProducts] = products;
 
-  const [selectedProducts, setSelectedProducts] = useState([]);
+  const [selectedProducts, setSelectedProducts] = reportedProducts;
   const [showTable, setShowTable] = useState(false);
+
+  useEffect(() => {
+    if (
+      Object.values(selectedProducts).length &&
+      Object.values(selectedProducts).includes(true)
+    ) {
+      // console.log('SELECTED PRODUCTS');
+      setShowTable(true);
+    }
+  }, [selectedProducts]);
 
   const handleProductSelect = (data) => {
     const value = Object.values(data)[0];
     const key = Object.keys(data)[0];
-    if (value === true) {
-      setSelectedProducts((selectedProducts) => [...selectedProducts, key]);
-    }
-    if (value === false) {
-      setSelectedProducts(
-        selectedProducts.filter((product) => product !== key)
-      );
-    }
+    setSelectedProducts((selectedProducts) => ({
+      ...selectedProducts,
+      [key]: value,
+    }));
   };
 
   const handleSubmit = () => {
-    selectedProducts.length
+    Object.values(selectedProducts).includes(true)
       ? setShowTable(true)
       : console.log('You must select at least one product');
   };
@@ -43,6 +49,7 @@ const Inventory = (props) => {
               question={'Please select products to report'}
               data={brandProducts}
               callback={handleProductSelect}
+              value={selectedProducts}
             />
           </Grid>
           <Grid item xs={8}>

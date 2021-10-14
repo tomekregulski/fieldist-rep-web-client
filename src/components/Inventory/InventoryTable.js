@@ -19,9 +19,16 @@ const InventoryTable = (props) => {
   const [salesData, setSalesData] = useState([]);
   // eslint-disable-next-line no-unused-vars
   const [reportData, setReportData] = data;
+  console.log(props.data);
 
   useEffect(() => {
-    setProducts(props.data);
+    let itemsArr = [];
+    for (const item in props.data) {
+      if (props.data[item] === true) {
+        itemsArr.push(item);
+      }
+    }
+    setProducts(itemsArr);
   }, [props.data]);
 
   const handleInput = (data) => {
@@ -61,19 +68,48 @@ const InventoryTable = (props) => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {products.map((product, index) => (
-                  <TableRow
-                    key={index}
-                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                  >
-                    <TableCell component='th' scope='row'>
-                      {product}
-                    </TableCell>
-                    <TableCell align='right'>
-                      <Textfield callback={handleInput} target={product} />
-                    </TableCell>
-                  </TableRow>
-                ))}
+                {products.map((product, index) => {
+                  if (
+                    reportData.inventory &&
+                    reportData.inventory.hasOwnProperty(product)
+                  ) {
+                    return (
+                      <TableRow
+                        key={index}
+                        sx={{
+                          '&:last-child td, &:last-child th': { border: 0 },
+                        }}
+                      >
+                        <TableCell component='th' scope='row'>
+                          {product}
+                        </TableCell>
+                        <TableCell align='right'>
+                          <Textfield
+                            callback={handleInput}
+                            target={product}
+                            value={reportData.inventory[product]}
+                          />
+                        </TableCell>
+                      </TableRow>
+                    );
+                  } else {
+                    return (
+                      <TableRow
+                        key={index}
+                        sx={{
+                          '&:last-child td, &:last-child th': { border: 0 },
+                        }}
+                      >
+                        <TableCell component='th' scope='row'>
+                          {product}
+                        </TableCell>
+                        <TableCell align='right'>
+                          <Textfield callback={handleInput} target={product} />
+                        </TableCell>
+                      </TableRow>
+                    );
+                  }
+                })}
               </TableBody>
             </Table>
           </TableContainer>
