@@ -41,6 +41,7 @@ const RenderedForm = (props) => {
         <Grid container spacing={2}>
           {reportQuestions
             ? reportQuestions.map((item, index) => {
+                console.log(reportData.formResponse.question);
                 if (item.type === 'text') {
                   return <Textfield data={item.content} key={index} />;
                 }
@@ -52,6 +53,7 @@ const RenderedForm = (props) => {
                       data={item.choices}
                       question={item.question}
                       key={index}
+                      // value={reportData.formResponse.question ? }
                     />
                   );
                 }

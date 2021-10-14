@@ -1,4 +1,7 @@
-import React from 'react';
+import React, { useContext } from 'react';
+
+// import { ReportContext } from '../../context/ReportContext';
+
 import Box from '@mui/material/Box';
 import FormLabel from '@mui/material/FormLabel';
 import FormControl from '@mui/material/FormControl';
@@ -7,6 +10,9 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 
 const FormCheckbox = (props) => {
+  // const { brand, products, questions, expenses, data, finished } =
+  //   useContext(ReportContext);
+
   const handleChange = (event) => {
     props.callback({
       [event.target.name]: event.target.checked,
