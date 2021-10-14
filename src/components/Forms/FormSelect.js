@@ -12,7 +12,7 @@ const FormSelect = (props) => {
     // event.preventDefault();
     setLabel(event.target.value);
     props.callback({
-      [props.question]: label,
+      [props.question]: event.target.value,
     });
   };
 
