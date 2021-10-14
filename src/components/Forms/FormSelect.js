@@ -9,7 +9,7 @@ const FormSelect = (props) => {
   const [label, setLabel] = useState('Select');
 
   const handleChange = (event) => {
-    event.preventDefault();
+    // event.preventDefault();
     setLabel(event.target.value);
     props.callback({
       [props.question]: event.target.value,
