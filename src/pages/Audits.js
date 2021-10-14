@@ -207,32 +207,42 @@ const Reports = () => {
     const minutes = today.getMinutes();
     const submitTime = `${hours}:${minutes}`;
 
-    const general = {
-      rep: `${user[0].first_name} ${user[0].last_name}`,
-      rep_id: user[0].id,
-      time: submitTime,
-      brand: selectedBrand,
-      campaign: 'WFM Audits',
-      location: selectedLocation.name,
-    };
-    data[0].general = general;
+    // const general = {
+    //   rep: `${user[0].first_name} ${user[0].last_name}`,
+    //   rep_id: user[0].id,
+    //   time: submitTime,
+    //   brand: selectedBrand,
+    //   campaign: 'WFM Audits',
+    //   location: selectedLocation.name,
+    // };
+    // data[0].general = general;
     data[0].photos = [1234567, 1234567, 12345678];
     const payload = {
-      general: JSON.stringify(data[0].general),
-      response: JSON.stringify(data[0].formResponse),
-      inventory: JSON.stringify(data[0].inventory),
+      date: date,
+      time: submitTime,
+      location: selectedLocation.name,
+      brand: selectedBrand,
+      form: 'WFM Audits',
+      rep: `${user[0].first_name} ${user[0].last_name}`,
+      rep_id: user[0].id,
+      // general: JSON.stringify(data[0].general),
+      response: data[0].formResponse,
+      inventory: data[0].inventory,
       photos: JSON.stringify(data[0].photos),
-      expenses: JSON.stringify(data[0].expenses),
+      expenses: data[0].expenses,
     };
     axios
       .post(
-        // 'http://127.0.0.1:5001/api/reports', {
-        'https://fieldist-back-end.herokuapp.com/api/reports',
+        'http://127.0.0.1:5001/api/reports',
+        // 'https://fieldist-back-end.herokuapp.com/api/reports',
         {
           payload,
         }
       )
-      .then(setShowFinished(true));
+      .then(
+        setShowFinished(true),
+        console.log('Report Successfully Submitted')
+      );
   };
 
   const handleCheckOut = () => {

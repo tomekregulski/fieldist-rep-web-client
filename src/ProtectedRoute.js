@@ -1,15 +1,16 @@
-// import React from "react";
-import React from 'react';
-// import {
-//   Login,
-// } from './pages';
+import React, { useContext } from 'react';
 import { Route, Redirect } from 'react-router-dom';
 
+import { AuthContext } from './context/AuthContext';
+
 const ProtectedRoute = (props) => {
-  if (!JSON.parse(localStorage.getItem('user'))) {
-    return <Redirect to={'/login'} />;
-  } else {
+  const { auth } = useContext(AuthContext);
+  const [isAuth, setIsAuth] = auth;
+  // if (!JSON.parse(localStorage.getItem('user'))) {
+  if (isAuth === true) {
     return <Route {...props} />;
+  } else {
+    return <Redirect to={'/login'} />;
   }
 };
 

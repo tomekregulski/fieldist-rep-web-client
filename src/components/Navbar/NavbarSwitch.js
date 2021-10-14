@@ -1,7 +1,9 @@
 import React, { useContext } from 'react';
+import { useHistory } from 'react-router-dom';
+
 import { AuthContext } from '../../context/AuthContext';
 import NavbarLoggedIn from './NavbarLoggedIn';
-import NavbarLoggedOut from './NavbarLoggedOut';
+// import NavbarLoggedOut from './NavbarLoggedOut';
 
 import axios from 'axios';
 
@@ -11,11 +13,14 @@ function NavbarSwitch() {
   // eslint-disable-next-line no-unused-vars
   const [userData, setUserData] = user;
 
+  const history = useHistory();
+
   const handleLogout = () => {
     axios.post('http://localhost:5001/api/users/logout');
     localStorage.removeItem('user');
     setUserData({});
     setIsAuth(false);
+    history.push('/login');
   };
 
   if (isAuth === true) {
