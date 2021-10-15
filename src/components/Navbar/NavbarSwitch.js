@@ -16,7 +16,7 @@ function NavbarSwitch() {
   const history = useHistory();
 
   const handleLogout = () => {
-    axios.post('http://localhost:5001/api/users/logout');
+    axios.post('https://fieldist-back-end.herokuapp.com/api/users/logout');
     localStorage.removeItem('user');
     setUserData({});
     setIsAuth(false);

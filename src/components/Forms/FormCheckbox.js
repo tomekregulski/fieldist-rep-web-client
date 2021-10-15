@@ -35,7 +35,7 @@ const FormCheckbox = (props) => {
                 key={index}
                 control={
                   <Checkbox
-                    checked={checked || ''}
+                    checked={checked || false}
                     onChange={handleChange}
                     name={item}
                   />
