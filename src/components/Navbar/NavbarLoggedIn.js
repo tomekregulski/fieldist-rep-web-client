@@ -1,12 +1,28 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useContext, useState, useEffect } from 'react';
+
+import { AuthContext } from '../../context/AuthContext';
 
 import image from '../../images/intelly_logo.png';
 
 import Button from '@mui/material/Button';
 
 const NavbarLoggedIn = (props) => {
+  const { user } = useContext(AuthContext);
+  // eslint-disable-next-line no-unused-vars
+  const [userData, setUserData] = user;
+
+  const [query, setQuery] = useState({});
+
   const { handleLogout } = props;
+
+  useEffect(() => {
+    if (Object.keys(userData).length) {
+      setQuery({
+        email: userData.email,
+        password: userData.password,
+      });
+    }
+  }, [userData]);
 
   return (
     <>
@@ -18,16 +34,15 @@ const NavbarLoggedIn = (props) => {
           justifyContent: 'center',
         }}
       >
-        <Link
-          to='/'
-          // style={{ marginLeft: '30px' }}
+        <a
+          href={`https://gallant-wing-415919.netlify.app/?${query.email}&${query.password}`}
         >
           <img
             style={{ width: '10rem', margin: '.5rem 0 .5rem 0' }}
             src={image}
             alt='Intelly'
           />
-        </Link>
+        </a>
         <div>
           <Button
             variant='outlined'

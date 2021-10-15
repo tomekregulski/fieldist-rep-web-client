@@ -16,7 +16,10 @@ function NavbarSwitch() {
   const history = useHistory();
 
   const handleLogout = () => {
-    axios.post('https://fieldist-back-end.herokuapp.com/api/users/logout');
+    axios.post(
+      'https://intelly-auth-service.herokuapp.com/api/users/logout'
+      // 'httpslocalhost:5001/api/users/logout'
+    );
     localStorage.removeItem('user');
     setUserData({});
     setIsAuth(false);

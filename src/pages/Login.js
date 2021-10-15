@@ -30,8 +30,7 @@ const Login = () => {
       };
 
       return axios
-        .post('https://fieldist-back-end.herokuapp.com/api/users/login', {
-          // .post('http://localhost:5001/api/users/login', {
+        .post('https://intelly-auth-service.herokuapp.com/api/users/login', {
           payload,
         })
         .then((response) => {
@@ -45,10 +44,12 @@ const Login = () => {
           setUserData({
             id: response.data.id,
             email: response.data.email,
+            password: response.data.password,
             first_name: response.data.first_name,
             last_name: response.data.last_name,
-            brand: response.data.brand,
             roles: response.data.roles,
+            access: response.data.access,
+            brands: response.data.brands,
           });
 
           history.push('/');
