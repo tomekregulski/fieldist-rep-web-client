@@ -19,7 +19,6 @@ const InventoryTable = (props) => {
   const [salesData, setSalesData] = useState([]);
   // eslint-disable-next-line no-unused-vars
   const [reportData, setReportData] = data;
-  console.log(props.data);
 
   useEffect(() => {
     let itemsArr = [];
@@ -42,7 +41,6 @@ const InventoryTable = (props) => {
   };
 
   const handleSubmit = () => {
-    console.log({ inventory: salesData });
     setReportData((prevState) => ({
       ...prevState,
       inventory: salesData,

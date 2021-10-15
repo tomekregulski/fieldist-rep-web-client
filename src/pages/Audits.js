@@ -67,8 +67,15 @@ const Reports = () => {
     totalForms,
   } = useContext(SessionContext);
 
-  const { brand, products, questions, expenses, data, finished } =
-    useContext(ReportContext);
+  const {
+    brand,
+    products,
+    reportedProducts,
+    questions,
+    expenses,
+    data,
+    finished,
+  } = useContext(ReportContext);
 
   // eslint-disable-next-line no-unused-vars
   const [userData, setUserData] = user;
@@ -83,6 +90,7 @@ const Reports = () => {
   const [selectedBrand, setSelectedBrand] = brand;
   // eslint-disable-next-line no-unused-vars
   const [brandProducts, setBrandProducts] = products;
+  const [selectedProducts, setSelectedProducts] = reportedProducts;
   const [reportQuestions, setReportQuestions] = questions;
   // eslint-disable-next-line no-unused-vars
   const [reportExpenses, setReportExpenses] = expenses;
@@ -209,17 +217,8 @@ const Reports = () => {
     const hours = today.getHours();
     const minutes = today.getMinutes();
     const submitTime = `${hours}:${minutes}`;
-
-    // const general = {
-    //   rep: `${user[0].first_name} ${user[0].last_name}`,
-    //   rep_id: user[0].id,
-    //   time: submitTime,
-    //   brand: selectedBrand,
-    //   campaign: 'WFM Audits',
-    //   location: selectedLocation.name,
-    // };
-    // data[0].general = general;
     data[0].photos = [1234567, 1234567, 12345678];
+
     const payload = {
       date: date,
       time: submitTime,
@@ -228,7 +227,6 @@ const Reports = () => {
       form: 'WFM Audits',
       rep: `${user[0].first_name} ${user[0].last_name}`,
       rep_id: user[0].id,
-      // general: JSON.stringify(data[0].general),
       response: data[0].formResponse,
       inventory: data[0].inventory,
       photos: JSON.stringify(data[0].photos),
@@ -287,11 +285,17 @@ const Reports = () => {
   const resetForm = () => {
     setSelectedBrand('');
     setBrandProducts([]);
+    setSelectedProducts({});
     setReportQuestions([]);
+    setReportData({});
     // setReportPhotos([]);
     setReportExpenses([]);
-    setReportData({});
-    // setShowFinished(false);
+    setShowFinished(false);
+  };
+
+  const handleSessionClose = () => {
+    resetForm();
+    setShowClockOut(true);
   };
 
   return (
@@ -350,7 +354,7 @@ const Reports = () => {
           <ButtonMain
             variant='outlined'
             fullWidth
-            onClick={() => setShowClockOut(true)}
+            onClick={() => handleSessionClose()}
           >
             No
           </ButtonMain>
