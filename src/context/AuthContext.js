@@ -13,10 +13,13 @@ export const AuthProvider = (props) => {
 
       setUserData({
         id: user.id,
+        email: user.email,
+        password: user.password,
         first_name: user.first_name,
         last_name: user.last_name,
         roles: user.roles,
-        brand_id: user.brand_id,
+        access: user.access,
+        brands: user.brands,
       });
     }
   }, []);

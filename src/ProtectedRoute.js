@@ -12,29 +12,36 @@ const ProtectedRoute = (props) => {
   // eslint-disable-next-line no-unused-vars
   const [userData, setUserData] = user;
   const [isLoading, setIsLoading] = useState(true);
-  const [credentials, setCredentials] = useState({});
+  const [credentials, setCredentials] = useState([]);
 
   useEffect(() => {
     if (window.location.href.includes('?')) {
       const query = window.location.href.split('?');
       console.log(query[1].split('&'));
-      setCredentials(query[1].split('&'));
+      const querySplit = query[1].split('&');
+      setCredentials({
+        email: querySplit[0],
+        password: querySplit[1],
+      });
     } else {
       setIsLoading(false);
     }
   }, []);
 
   useEffect(() => {
-    if (credentials.length) {
+    if (Object.keys(credentials).length) {
+      console.log('attemping login');
       const payload = {
-        email: 'admin@fieldist.com',
-        password: 'admin',
+        email: credentials.email,
+        password: credentials.password,
       };
       return axios
-        .post('https://fieldist-back-end.herokuapp.com/api/users/login', {
-          // .post('http://localhost:5001/api/users/login', {
-          payload,
-        })
+        .post(
+          'https://intelly-auth-service.herokuapp.com/api/users/login-link',
+          {
+            payload,
+          }
+        )
         .then((response) => {
           if (response.data.token) {
             localStorage.setItem('user', JSON.stringify(response.data));
@@ -45,15 +52,25 @@ const ProtectedRoute = (props) => {
           setUserData({
             id: response.data.id,
             email: response.data.email,
+            password: response.data.password,
             first_name: response.data.first_name,
             last_name: response.data.last_name,
-            brand: response.data.brand,
             roles: response.data.roles,
+            access: response.data.access,
+            brands: response.data.brands,
           });
           setIsLoading(false);
         });
     }
-  }, [credentials.length, setIsAuth, setUserData]);
+  }, [
+    credentials.email,
+    credentials.length,
+    credentials.password,
+    credentials,
+    setCredentials,
+    setIsAuth,
+    setUserData,
+  ]);
 
   if (isLoading === true) {
     return <h1>Loading</h1>;
