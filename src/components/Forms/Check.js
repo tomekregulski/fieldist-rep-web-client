@@ -29,7 +29,7 @@ const Check = (props) => {
                 key={index}
                 control={
                   <Checkbox
-                    checked={checked || ''}
+                    checked={checked}
                     onChange={handleChange}
                     name={item}
                   />

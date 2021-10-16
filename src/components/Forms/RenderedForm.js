@@ -6,7 +6,7 @@ import { ReportContext } from '../../context/ReportContext';
 import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
 
-import { FormSelect, Textfield, FormCheckbox, Check } from './';
+import { FormSelect, Check } from './';
 
 const RenderedForm = (props) => {
   const { data, questions } = useContext(ReportContext);
@@ -92,7 +92,7 @@ const RenderedForm = (props) => {
                 }
               })
             : null}
-          <Grid item xs={8}>
+          <Grid item xs={12}>
             <Button
               variant='outlined'
               fullWidth
