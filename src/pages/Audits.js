@@ -102,17 +102,22 @@ const Reports = () => {
   // eslint-disable-next-line no-unused-vars
   const [checkedOut, setCheckedOut] = clockOut;
 
+  const [showStartVisit, setShowStartVisit] = useState(true);
+  const [showSelectVenue, setShowSelectVenue] = useState(false);
+  const [showClockIn, setShowClockIn] = useState(false);
+  // const [showSelectForm, setShowSelectForm] = useState(false);
   const [showClockOut, setShowClockOut] = useState(false);
 
   useEffect(() => {
     brands.length &&
-      brands.map((brand) => {
-        setBrandList((prevState) => [...prevState, brand.name]);
-      });
+      brands.map((brand) =>
+        setBrandList((prevState) => [...prevState, brand.name])
+      );
   }, [brands, setBrands]);
 
   const handleStart = () => {
     setVenues([]);
+    setShowSelectVenue(true);
     function formatDate(date, format) {
       const map = {
         mm: date.getMonth() + 1,
@@ -135,13 +140,15 @@ const Reports = () => {
       .then((response) =>
         response.data.map((venue) => {
           const store = `${venue.name}`;
-          setVenues((prevState) => [...prevState, store]);
+          return setVenues((prevState) => [...prevState, store]);
         })
       );
+    setShowStartVisit(false);
   };
 
   const handleStoreSelect = (data) => {
     const value = Object.values(data)[0];
+
     axios
       .get(
         // 'http://localhost:5001/api/venues/name', {
@@ -153,6 +160,7 @@ const Reports = () => {
         }
       )
       .then((response) => setSelectedLocation(response.data[0]));
+    setShowClockIn(true);
   };
 
   const handleCheckIn = () => {
@@ -194,6 +202,7 @@ const Reports = () => {
         'https://fieldist-back-end.herokuapp.com/api/brands'
       )
       .then((response) => setBrands(response.data));
+    // setShowSelectForm(true);
   };
 
   const brandSelect = (data) => {
@@ -209,6 +218,7 @@ const Reports = () => {
         payload[0].products[i].name,
       ]);
     }
+    setShowClockIn(false);
   };
 
   const handleSubmitReport = () => {
@@ -276,8 +286,8 @@ const Reports = () => {
           }
         )
         .then(
-          console.log('Session Successfully Completed')
-          // window.location.reload()
+          console.log('Session Successfully Completed'),
+          window.location.reload()
         );
     });
   };
@@ -295,15 +305,20 @@ const Reports = () => {
 
   const handleSessionClose = () => {
     resetForm();
+    setShowSelectVenue(false);
+    // setShowSelectForm(false);
+    setBrandList([]);
     setShowClockOut(true);
   };
 
   return (
     <Grid style={{ marginTop: '30px' }}>
-      <ButtonMain variant='outlined' onClick={() => handleStart()}>
-        Start New Store Visit
-      </ButtonMain>
-      {venues.length ? (
+      {showStartVisit === true && (
+        <ButtonMain variant='outlined' onClick={() => handleStart()}>
+          Start New Store Visit
+        </ButtonMain>
+      )}
+      {venues.length && showSelectVenue === true ? (
         <div style={{ margin: '30px auto', width: '280px' }}>
           <FormSelect
             callback={handleStoreSelect}
@@ -314,7 +329,7 @@ const Reports = () => {
           />
         </div>
       ) : null}
-      {selectedLocation !== '' ? (
+      {selectedLocation !== '' && showClockIn === true ? (
         <ButtonMain
           variant='outlined'
           fullWidth

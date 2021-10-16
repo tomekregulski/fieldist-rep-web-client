@@ -8,13 +8,15 @@ const Textfield = (props) => {
     });
   };
 
+  console.log(props);
+
   return (
     <div>
       <TextField
         onChange={handleInput}
         label={props.data && props.data}
         variant='standard'
-        defaultValue={''}
+        value={props.value}
       />
     </div>
   );

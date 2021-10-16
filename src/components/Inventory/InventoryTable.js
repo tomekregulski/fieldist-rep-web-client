@@ -14,11 +14,13 @@ import Grid from '@mui/material/Grid';
 import { Textfield } from '../Forms';
 
 const InventoryTable = (props) => {
-  const { data } = useContext(ReportContext);
+  const { data, inventory } = useContext(ReportContext);
   const [products, setProducts] = useState([]);
-  const [salesData, setSalesData] = useState([]);
   // eslint-disable-next-line no-unused-vars
   const [reportData, setReportData] = data;
+  const [inventoryData, setInventoryData] = inventory;
+
+  // const [salesData, setSalesData] = useState(reportData.inventory || []);
 
   useEffect(() => {
     let itemsArr = [];
@@ -34,18 +36,18 @@ const InventoryTable = (props) => {
     const value = Object.values(data)[0];
     const key = Object.keys(data)[0];
 
-    setSalesData((prevState) => ({
+    setInventoryData((prevState) => ({
       ...prevState,
       [key]: value,
     }));
   };
 
-  const handleSubmit = () => {
-    setReportData((prevState) => ({
-      ...prevState,
-      inventory: salesData,
-    }));
-  };
+  // const handleSubmit = () => {
+  //   setReportData((prevState) => ({
+  //     ...prevState,
+  //     inventory: salesData,
+  //   }));
+  // };
 
   return (
     <div style={{ marginTop: '40px' }}>
@@ -67,10 +69,9 @@ const InventoryTable = (props) => {
               </TableHead>
               <TableBody>
                 {products.map((product, index) => {
-                  if (
-                    reportData.inventory &&
-                    reportData.inventory.hasOwnProperty(product)
-                  ) {
+                  if (inventoryData && inventoryData.hasOwnProperty(product)) {
+                    console.log(product + 'exists');
+                    console.log(inventoryData[product]);
                     return (
                       <TableRow
                         key={index}
@@ -85,7 +86,7 @@ const InventoryTable = (props) => {
                           <Textfield
                             callback={handleInput}
                             target={product}
-                            value={reportData.inventory[product]}
+                            value={inventoryData[product]}
                           />
                         </TableCell>
                       </TableRow>
@@ -112,14 +113,14 @@ const InventoryTable = (props) => {
             </Table>
           </TableContainer>
         </Grid>
-        <Grid style={{ marginTop: '20px' }} item xs={3}>
-          <Button
+        <Grid style={{ marginTop: '20px' }} item xs={12}>
+          {/* <Button
             variant='outlined'
             fullWidth
             onClick={(event) => handleSubmit(event)}
           >
             Save
-          </Button>
+          </Button> */}
         </Grid>
       </Grid>
     </div>
