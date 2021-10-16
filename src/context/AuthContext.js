@@ -20,6 +20,7 @@ export const AuthProvider = (props) => {
         roles: user.roles,
         access: user.access,
         brands: user.brands,
+        token: user.token,
       });
     }
   }, []);
