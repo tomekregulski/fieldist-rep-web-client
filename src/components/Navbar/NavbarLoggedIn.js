@@ -18,8 +18,7 @@ const NavbarLoggedIn = (props) => {
   useEffect(() => {
     if (Object.keys(userData).length) {
       setQuery({
-        email: userData.email,
-        password: userData.password,
+        token: userData.token,
       });
     }
   }, [userData]);
@@ -34,9 +33,7 @@ const NavbarLoggedIn = (props) => {
           justifyContent: 'center',
         }}
       >
-        <a
-          href={`https://gallant-wing-415919.netlify.app/?${query.email}&${query.password}`}
-        >
+        <a href={`https://gallant-wing-415919.netlify.app/?${query.token}`}>
           <img
             style={{ width: '10rem', margin: '.5rem 0 .5rem 0' }}
             src={image}
