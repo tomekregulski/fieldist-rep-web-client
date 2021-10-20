@@ -1,4 +1,4 @@
-import React, { useState, createContext } from 'react';
+import React, { useState, useEffect, createContext } from 'react';
 export const ReportContext = createContext();
 
 export const ReportProvider = (props) => {
@@ -10,6 +10,52 @@ export const ReportProvider = (props) => {
   const [inventoryData, setInventoryData] = useState({});
   const [reportData, setReportData] = useState({});
   const [showFinished, setShowFinished] = useState(false);
+  const [reportValidated, setReportValidated] = useState(false);
+
+  useEffect(() => {
+    if (localStorage.getItem('currentReport')) {
+      const data = JSON.parse(localStorage.getItem('currentReport'));
+      data.brand && setSelectedBrand(data.brand);
+      data.brandProducts && setBrandProducts(data.brandProducts);
+      data.selectedProducts && setSelectedProducts(data.selectedProducts);
+      data.reportQuestions && setReportQuestions(data.reportQuestions);
+      data.reportExpenses && setReportExpenses(data.reportExpenses);
+      data.inventoryData && setInventoryData(data.inventoryData);
+      data.reportData && setReportData(data.reportData);
+    }
+  }, []);
+
+  useEffect(() => {
+    const currentReport = {
+      brand: selectedBrand || '',
+      brandProducts: brandProducts || '',
+      selectedProducts: selectedProducts || '',
+      reportQuestions: reportQuestions || '',
+      reportExpenses: reportExpenses || '',
+      inventoryData: inventoryData || '',
+      reportData: reportData || '',
+    };
+    localStorage.setItem('currentReport', JSON.stringify(currentReport));
+  }, [
+    brandProducts,
+    inventoryData,
+    reportData,
+    reportExpenses,
+    reportQuestions,
+    selectedBrand,
+    selectedProducts,
+  ]);
+
+  const resetReport = () => {
+    setSelectedBrand(false);
+    setBrandProducts([]);
+    setSelectedProducts({});
+    setReportQuestions([]);
+    setReportExpenses([]);
+    setInventoryData({});
+    setReportData({});
+    setShowFinished(false);
+  };
 
   return (
     <ReportContext.Provider
@@ -22,6 +68,8 @@ export const ReportProvider = (props) => {
         data: [reportData, setReportData],
         finished: [showFinished, setShowFinished],
         expenses: [reportExpenses, setReportExpenses],
+        resetRpt: resetReport,
+        validated: [reportValidated, setReportValidated],
       }}
     >
       {props.children}

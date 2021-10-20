@@ -2,21 +2,7 @@ import * as React from 'react';
 import SectionModal from '../SectionModal/SectionModal';
 
 const SectionCard = (props) => {
-  return (
-    <div
-      style={{
-        height: '80px',
-        width: '280px',
-        border: 'solid 1px blue',
-        borderRadius: '10px',
-        textAlign: 'center',
-        lineHeight: '80px',
-        margin: '40px auto',
-      }}
-    >
-      <SectionModal title={props.title} />
-    </div>
-  );
+  return <SectionModal title={props.title} />;
 };
 
 export default SectionCard;
