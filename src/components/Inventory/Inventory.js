@@ -12,7 +12,7 @@ const Inventory = () => {
   // eslint-disable-next-line no-unused-vars
   const [brandProducts, setBrandProducts] = products;
   const [inventoryData, setInventoryData] = inventory;
-
+  // eslint-disable-next-line no-unused-vars
   const [showButton, setShowButton] = useState(true);
   const [showProductSelect, setShowProductSelect] = useState(false);
   const [selectedProducts, setSelectedProducts] = reportedProducts;
@@ -54,7 +54,6 @@ const Inventory = () => {
       Object.values(selectedProducts).length &&
       Object.values(selectedProducts).includes(true)
     ) {
-      // console.log('SELECTED PRODUCTS');
       setShowTable(true);
     }
   };
@@ -66,13 +65,17 @@ const Inventory = () => {
 
   return (
     <div>
-      <form action='/my-handling-form-page' method='post'>
+      <form
+        style={{ minWidth: '300px', maxWidth: '800px' }}
+        action='/my-handling-form-page'
+        method='post'
+      >
         <Button variant='outlined' fullWidth onClick={() => handleButton()}>
           Select Products
         </Button>
         {showProductSelect === true && (
           <Grid container spacing={2}>
-            <Grid item xs={8}>
+            <Grid style={{ minWidth: '300px' }} item xs={8}>
               <FormCheckbox
                 question={'Please select products to report'}
                 data={brandProducts}

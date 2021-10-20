@@ -8,8 +8,6 @@ const Textfield = (props) => {
     });
   };
 
-  console.log(props);
-
   return (
     <div>
       <TextField

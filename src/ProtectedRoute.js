@@ -15,14 +15,6 @@ const ProtectedRoute = (props) => {
   const [credentials, setCredentials] = useState([]);
 
   useEffect(() => {
-    //   if (window.location.href.includes('?')) {
-    //     const query = window.location.href.split('?');
-    //     console.log(query[1].split('&'));
-    //     const querySplit = query[1].split('&');
-    //     setCredentials({
-    //       email: querySplit[0],
-    //       password: querySplit[1],
-    //     });
     if (window.location.href.includes('?')) {
       const query = window.location.href.split('?');
       console.log(query[1].split('&'));

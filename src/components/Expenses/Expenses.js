@@ -1,16 +1,13 @@
 import React, { useState, useContext } from 'react';
 import { ReportContext } from '../../context/ReportContext';
 
-// import { Textfield } from '../Forms';
 import ExpenseTable from './ExpenseTable';
-
 import Button from '@mui/material/Button';
 
 const Expenses = () => {
   const { data } = useContext(ReportContext);
   // eslint-disable-next-line no-unused-vars
   const [reportData, setReportData] = data;
-
   const [show, setShow] = useState(false);
   const [newExpense, setNewExpense] = useState({});
 
@@ -31,12 +28,11 @@ const Expenses = () => {
         ? [...reportData.expenses, newExpense]
         : [newExpense],
     }));
-    console.log('saved new expense');
     setShow(false);
   };
 
   return (
-    <div>
+    <div style={{ minWidth: '300px', maxWidth: '800px' }}>
       <p>Please report any approved expenses for this report</p>
       <Button onClick={() => setShow(!show)}>Add new expense</Button>
       {show === true ? (
@@ -51,7 +47,7 @@ const Expenses = () => {
           </Button>
         </>
       ) : null}
-      {reportData.expenses && console.log(reportData.expenses)}
+
       {reportData.expenses
         ? reportData.expenses.map((expense, index) => (
             <p key={index}>

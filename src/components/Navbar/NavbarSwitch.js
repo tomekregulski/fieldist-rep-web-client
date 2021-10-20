@@ -1,11 +1,10 @@
 import React, { useContext } from 'react';
-import { useHistory } from 'react-router-dom';
-
 import { AuthContext } from '../../context/AuthContext';
-import NavbarLoggedIn from './NavbarLoggedIn';
-// import NavbarLoggedOut from './NavbarLoggedOut';
 
+import { useHistory } from 'react-router-dom';
 import axios from 'axios';
+
+import NavbarLoggedIn from './NavbarLoggedIn';
 
 function NavbarSwitch() {
   const { auth, user } = useContext(AuthContext);

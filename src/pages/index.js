@@ -1,5 +1,4 @@
-import Dashboard from './Dashboard';
 import Login from './Login';
-import Audits from './Audits';
+import Reports from './Reports';
 
-export { Dashboard, Login, Audits };
+export { Login, Reports };
