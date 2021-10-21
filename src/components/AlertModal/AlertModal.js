@@ -38,7 +38,25 @@ const AlertModal = (props) => {
         aria-describedby='modal-modal-description'
       >
         <Box sx={style}>
-          <p>Confirm Stop Session?</p>
+          <p
+            style={{
+              textAlign: 'center',
+              fontFamily: [
+                '-apple-system',
+                'BlinkMacSystemFont',
+                '"Segoe UI"',
+                'Roboto',
+                '"Helvetica Neue"',
+                'Arial',
+                'sans-serif',
+                '"Apple Color Emoji"',
+                '"Segoe UI Emoji"',
+                '"Segoe UI Symbol"',
+              ],
+            }}
+          >
+            {props.message}
+          </p>
           <Button
             style={{ marginTop: '15px' }}
             variant='outlined'

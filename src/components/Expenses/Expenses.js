@@ -32,7 +32,24 @@ const Expenses = () => {
   };
 
   return (
-    <div style={{ minWidth: '300px', maxWidth: '800px' }}>
+    <div
+      style={{
+        minWidth: '300px',
+        maxWidth: '800px',
+        fontFamily: [
+          '-apple-system',
+          'BlinkMacSystemFont',
+          '"Segoe UI"',
+          'Roboto',
+          '"Helvetica Neue"',
+          'Arial',
+          'sans-serif',
+          '"Apple Color Emoji"',
+          '"Segoe UI Emoji"',
+          '"Segoe UI Symbol"',
+        ],
+      }}
+    >
       <p>Please report any approved expenses for this report</p>
       <Button onClick={() => setShow(!show)}>Add new expense</Button>
       {show === true ? (
@@ -57,7 +74,9 @@ const Expenses = () => {
                 ? expense.expenseNotes.length < 10
                   ? expense.expenseNotes
                   : expense.expenseNotes.substring(0, 10) + '...'
-                : ' N/A'}
+                : ' N/A'}{' '}
+              | Photo:
+              {expense.expensePhoto ? ' Yes' : ' No'}
             </p>
           ))
         : null}

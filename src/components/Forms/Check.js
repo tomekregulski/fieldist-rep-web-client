@@ -8,8 +8,6 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 
 const Check = (props) => {
-  console.log(props);
-
   const handleChange = (event) => {
     props.callback([event.target.name, event.target.checked, props.question]);
   };

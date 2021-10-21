@@ -1,5 +1,4 @@
 import React from 'react';
-// import { ReportContext } from '../../context/ReportContext';
 
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -11,6 +10,8 @@ import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
 
 import { Textfield, FormSelect } from '../Forms';
+
+import ExpensePhotos from '../ExpensePhotos/ExpensePhotos';
 
 const expenseTypes = [
   'Travel - Distance',
@@ -40,6 +41,7 @@ const ExpenseTable = (props) => {
                   <TableCell>Expense Type</TableCell>
                   <TableCell align='right'>$ Amount</TableCell>
                   <TableCell align='right'>Optional - Notes</TableCell>
+                  <TableCell align='left'>Upload Receipt</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -59,6 +61,12 @@ const ExpenseTable = (props) => {
                   </TableCell>
                   <TableCell align='right'>
                     <Textfield callback={handleInput} target='expenseNotes' />
+                  </TableCell>
+                  <TableCell align='right'>
+                    <ExpensePhotos
+                      callback={handleInput}
+                      target='expensePhoto'
+                    />
                   </TableCell>
                 </TableRow>
               </TableBody>

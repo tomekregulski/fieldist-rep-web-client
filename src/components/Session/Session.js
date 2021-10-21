@@ -46,8 +46,8 @@ const Session = () => {
 
     axios
       .get(
-        'http://localhost:5001/api/venues'
-        // 'https://fieldist-back-end.herokuapp.com/api/venues'
+        // 'http://localhost:5001/api/venues'
+        'https://fieldist-back-end.herokuapp.com/api/venues'
       )
       .then((response) =>
         response.data.map((venue) => {
@@ -67,8 +67,8 @@ const Session = () => {
 
     axios
       .get(
-        'http://localhost:5001/api/venues/name',
-        // 'https://fieldist-back-end.herokuapp.com/api/venues/name',
+        // 'http://localhost:5001/api/venues/name',
+        'https://fieldist-back-end.herokuapp.com/api/venues/name',
         {
           headers: {
             name: value,

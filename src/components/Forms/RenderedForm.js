@@ -2,11 +2,11 @@ import React, { useState, useContext } from 'react';
 import { ReportContext } from '../../context/ReportContext';
 
 import Grid from '@mui/material/Grid';
-import Button from '@mui/material/Button';
+import ButtonMain from '../ButtonMain/ButtonMain';
 
 import { FormSelect, Check } from './';
 
-const RenderedForm = (props) => {
+const RenderedForm = () => {
   const { data, questions } = useContext(ReportContext);
   // eslint-disable-next-line no-unused-vars
   const [reportQuestions, setReportQuestions] = questions;
@@ -47,14 +47,37 @@ const RenderedForm = (props) => {
   };
 
   return (
-    <div style={{ marginTop: '40px' }}>
+    <div
+      style={{
+        marginTop: '40px',
+        fontFamily: [
+          '-apple-system',
+          'BlinkMacSystemFont',
+          '"Segoe UI"',
+          'Roboto',
+          '"Helvetica Neue"',
+          'Arial',
+          'sans-serif',
+          '"Apple Color Emoji"',
+          '"Segoe UI Emoji"',
+          '"Segoe UI Symbol"',
+        ],
+      }}
+    >
       <h2> Event Questions</h2>
       <form
-        style={{ minWidth: '300px', maxWidth: '800px' }}
+        style={{
+          minWidth: '300px',
+          maxWidth: '800px',
+        }}
         action='/my-handling-form-page'
         method='post'
       >
-        <Grid container spacing={2}>
+        <Grid
+          style={{ display: 'flex', flexDirection: 'column' }}
+          container
+          spacing={2}
+        >
           {reportQuestions
             ? reportQuestions.map((item, index) => {
                 let value = '';
@@ -90,13 +113,12 @@ const RenderedForm = (props) => {
               })
             : null}
           <Grid item xs={12}>
-            <Button
+            <ButtonMain
               variant='outlined'
-              fullWidth
               onClick={(event) => handleSubmit(event)}
             >
               Save
-            </Button>
+            </ButtonMain>
           </Grid>
         </Grid>
       </form>

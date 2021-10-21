@@ -89,6 +89,7 @@ const Reports = () => {
             data={brandList}
             label='brands'
             value={selectedBrand}
+            question={'Select a Brand'}
           />
         </div>
       ) : null}
