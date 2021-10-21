@@ -40,7 +40,23 @@ const InventoryTable = (props) => {
   };
 
   return (
-    <div style={{ marginTop: '40px' }}>
+    <div
+      style={{
+        marginTop: '40px',
+        fontFamily: [
+          '-apple-system',
+          'BlinkMacSystemFont',
+          '"Segoe UI"',
+          'Roboto',
+          '"Helvetica Neue"',
+          'Arial',
+          'sans-serif',
+          '"Apple Color Emoji"',
+          '"Segoe UI Emoji"',
+          '"Segoe UI Symbol"',
+        ],
+      }}
+    >
       <h2>Inventory Data</h2>
       <Grid>
         <Grid item xs={8}>
@@ -60,8 +76,6 @@ const InventoryTable = (props) => {
               <TableBody>
                 {products.map((product, index) => {
                   if (inventoryData && inventoryData.hasOwnProperty(product)) {
-                    console.log(product + 'exists');
-                    console.log(inventoryData[product]);
                     return (
                       <TableRow
                         key={index}

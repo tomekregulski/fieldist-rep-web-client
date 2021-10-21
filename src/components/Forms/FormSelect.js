@@ -16,7 +16,23 @@ const FormSelect = (props) => {
   };
 
   return (
-    <Box sx={{ minWidth: 120 }}>
+    <Box
+      style={{
+        fontFamily: [
+          '-apple-system',
+          'BlinkMacSystemFont',
+          '"Segoe UI"',
+          'Roboto',
+          '"Helvetica Neue"',
+          'Arial',
+          'sans-serif',
+          '"Apple Color Emoji"',
+          '"Segoe UI Emoji"',
+          '"Segoe UI Symbol"',
+        ],
+      }}
+      sx={{ minWidth: 120 }}
+    >
       <p>{props.question !== 'expense type' && props.question}</p>
       <FormControl fullWidth>
         <InputLabel id='demo-simple-select-label'>{label}</InputLabel>

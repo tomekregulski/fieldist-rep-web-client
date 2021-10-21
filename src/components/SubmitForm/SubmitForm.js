@@ -10,17 +10,19 @@ import ButtonMain from '../ButtonMain/ButtonMain';
 
 import Grid from '@mui/material/Grid';
 
-const SubmitForm = () => {
+const SubmitForm = (props) => {
   const { user } = useContext(AuthContext);
 
-  const { date, clockIn, location, clockOut, totalForms, reset } =
+  const { currentDate, clockIn, location, clockOut, totalForms, reset } =
     useContext(SessionContext);
 
-  const { brand, data, finished, resetRpt, validated } =
+  const { brand, data, finished, resetRpt, validated, photos, inventory } =
     useContext(ReportContext);
 
   // eslint-disable-next-line no-unused-vars
   const [checkedIn, setCheckedIn] = clockIn;
+  // eslint-disable-next-line no-unused-vars
+  const [date, setDate] = currentDate;
   const [showFinished, setShowFinished] = finished;
   // eslint-disable-next-line no-unused-vars
   const [selectedBrand, setSelectedBrand] = brand;
@@ -29,9 +31,13 @@ const SubmitForm = () => {
   // eslint-disable-next-line no-unused-vars
   const [reportData, setReportData] = data;
   // eslint-disable-next-line no-unused-vars
+  const [eventPhotos, setEventPhotos] = photos;
+  // eslint-disable-next-line no-unused-vars
   const [checkedOut, setCheckedOut] = clockOut;
   const [formsSubmitted, setFormsSubmitted] = totalForms;
   const [showClockOut, setShowClockOut] = useState(false);
+  // eslint-disable-next-line no-unused-vars
+  const [inventoryData, setInventoryData] = inventory;
   // eslint-disable-next-line no-unused-vars
   const [reportValidated, setReportValidated] = validated;
 
@@ -45,7 +51,6 @@ const SubmitForm = () => {
     const hours = today.getHours();
     const minutes = today.getMinutes();
     const submitTime = `${hours}:${minutes}`;
-    reportData.photos = [1234567, 1234567, 12345678];
 
     const payload = {
       date: date,
@@ -56,10 +61,12 @@ const SubmitForm = () => {
       rep: `${user[0].first_name} ${user[0].last_name}`,
       rep_id: user[0].id,
       response: reportData.formResponse,
-      inventory: reportData.inventory,
-      photos: JSON.stringify(reportData.photos),
+      inventory: inventoryData,
+      photos: JSON.stringify(eventPhotos),
       expenses: reportData.expenses || '',
     };
+    console.log(payload);
+
     axios
       .post(
         // 'http://127.0.0.1:5001/api/reports',
@@ -104,24 +111,30 @@ const SubmitForm = () => {
             payload,
           }
         )
-        .then(
-          console.log('Session Successfully Completed'),
-          window.location.reload()
-        )
-        .then(resetSession(), setReportValidated(false));
+        .then(() => {
+          window.location.reload();
+        })
+        .then(resetReport(), resetSession(), setReportValidated(false));
     });
   };
 
   const handleSessionClose = () => {
-    resetReport();
     setShowClockOut(true);
+    setShowFinished(false);
+  };
+
+  const handleContinueSession = () => {
+    resetReport();
+    props.callback();
   };
 
   return (
     <div>
-      <ButtonMain variant='outlined' onClick={() => handleSubmitReport()}>
-        Submit Completed Report
-      </ButtonMain>
+      {showFinished === false && showClockOut === false && (
+        <ButtonMain variant='outlined' onClick={() => handleSubmitReport()}>
+          Submit Completed Report
+        </ButtonMain>
+      )}
       {showFinished === true ? (
         <Grid>
           <p style={{ textAlign: 'center' }}>
@@ -130,7 +143,7 @@ const SubmitForm = () => {
           <ButtonMain
             variant='outlined'
             fullWidth
-            onClick={() => resetReport()}
+            onClick={() => handleContinueSession()}
           >
             Yes
           </ButtonMain>

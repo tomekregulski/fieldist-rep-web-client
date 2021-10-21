@@ -11,6 +11,8 @@ export const ReportProvider = (props) => {
   const [reportData, setReportData] = useState({});
   const [showFinished, setShowFinished] = useState(false);
   const [reportValidated, setReportValidated] = useState(false);
+  const [reportPhotos, setReportPhotos] = useState([]);
+  const [expensePhotos, setExpensePhotos] = useState([]);
 
   useEffect(() => {
     if (localStorage.getItem('currentReport')) {
@@ -22,6 +24,8 @@ export const ReportProvider = (props) => {
       data.reportExpenses && setReportExpenses(data.reportExpenses);
       data.inventoryData && setInventoryData(data.inventoryData);
       data.reportData && setReportData(data.reportData);
+      data.photos = setReportPhotos(data.photos);
+      data.expPhotos = setExpensePhotos(data.expPhotos);
     }
   }, []);
 
@@ -34,6 +38,8 @@ export const ReportProvider = (props) => {
       reportExpenses: reportExpenses || '',
       inventoryData: inventoryData || '',
       reportData: reportData || '',
+      photos: reportPhotos || '',
+      expPhotos: expensePhotos || '',
     };
     localStorage.setItem('currentReport', JSON.stringify(currentReport));
   }, [
@@ -44,6 +50,8 @@ export const ReportProvider = (props) => {
     reportQuestions,
     selectedBrand,
     selectedProducts,
+    reportPhotos,
+    expensePhotos,
   ]);
 
   const resetReport = () => {
@@ -55,6 +63,9 @@ export const ReportProvider = (props) => {
     setInventoryData({});
     setReportData({});
     setShowFinished(false);
+    setReportPhotos([]);
+    setExpensePhotos([]);
+    setReportValidated(false);
   };
 
   return (
@@ -70,6 +81,8 @@ export const ReportProvider = (props) => {
         expenses: [reportExpenses, setReportExpenses],
         resetRpt: resetReport,
         validated: [reportValidated, setReportValidated],
+        photos: [reportPhotos, setReportPhotos],
+        expPhotos: [expensePhotos, setExpensePhotos],
       }}
     >
       {props.children}

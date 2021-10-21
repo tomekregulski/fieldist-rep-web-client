@@ -3,9 +3,11 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Modal from '@mui/material/Modal';
 
+import ButtonMain from '../ButtonMain/ButtonMain';
+
 import { Inventory } from '../Inventory';
 import RenderedForm from '../Forms/RenderedForm';
-import Photos from '../Photos/Photos';
+import EventPhotos from '../EventPhotos/EventPhotos';
 import Expenses from '../Expenses/Expenses';
 import Session from '../Session/Session';
 import StopSession from '../StopSession/StopSession';
@@ -16,7 +18,6 @@ const style = {
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  // width: '95vw',
   bgcolor: 'background.paper',
   border: '2px solid #000',
   boxShadow: 24,
@@ -28,12 +29,13 @@ const style = {
 const button = {
   height: '80px',
   width: '280px',
-  border: 'solid 1px blue',
-  borderRadius: '10px',
+  border: 'solid 1px rgba(0, 180, 249, 0.872)',
+  borderRadius: '5px',
   textAlign: 'center',
   lineHeight: '70px',
   margin: '40px auto',
   display: 'block',
+  color: 'rgba(0, 180, 249, 0.872)',
 };
 
 const SectionModal = (props) => {
@@ -43,9 +45,11 @@ const SectionModal = (props) => {
 
   return (
     <div>
-      <Button sx={button} onClick={handleOpen}>
-        {props.title}
-      </Button>
+      <div style={{ margin: '0 auto' }}>
+        <Button sx={button} onClick={handleOpen}>
+          {props.title}
+        </Button>
+      </div>
       <Modal
         open={open}
         onClose={handleClose}
@@ -55,21 +59,23 @@ const SectionModal = (props) => {
         <Box sx={style}>
           {props.title === 'Inventory' ? <Inventory /> : null}
           {props.title === 'Form Response' ? <RenderedForm /> : null}
-          {props.title === 'Photos' ? <Photos /> : null}
+          {props.title === 'Photos' ? <EventPhotos /> : null}
           {props.title === 'Expenses' ? <Expenses /> : null}
           {props.title === 'Start New Store Visit' ? <Session /> : null}
           {props.title === 'Visit in Progress' ? <StopSession /> : null}
-          {props.title === 'Submit Report' ? <SubmitForm /> : null}
+          {props.title === 'Submit Report' ? (
+            <SubmitForm callback={handleClose} />
+          ) : null}
 
           {props.title !== 'Start New Store Visit' && (
-            <Button
+            <ButtonMain
               style={{ marginTop: '15px' }}
               variant='outlined'
               fullWidth
               onClick={handleClose}
             >
               Close
-            </Button>
+            </ButtonMain>
           )}
         </Box>
       </Modal>

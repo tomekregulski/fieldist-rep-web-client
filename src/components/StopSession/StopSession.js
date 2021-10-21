@@ -21,7 +21,13 @@ const StopSession = () => {
 
   return (
     <div>
-      <AlertModal action={'Stop Session'} callback={handleStopSession} />
+      <AlertModal
+        action={'Stop Session'}
+        message={
+          'Are you sure that you want to cancel this session? All of your data will be lost'
+        }
+        callback={handleStopSession}
+      />
     </div>
   );
 };
