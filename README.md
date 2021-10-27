@@ -14,7 +14,7 @@ Once logged in, you will be brough to a dashboard that allows you to navigate th
 
 As mentioned above, Intelly is split into several independent repos in order to facilitate different timelines for development, and thus make it possible to demonstrate those services that have reached an appropriate stage of devlopment.
 
-The repo you are currently visiting is the front end for the Field Events application. It allows field reps to start a work session at a location and send in report forms.
+The repo you are currently visiting is the front end for the Field Events application. It allows field reps to start a work session at a location and send in report forms. It utilizes the Geolocation API to verify the field rep's work location, and references client information from the Field Events Back End in order to render in the necessary form(s) to be filled out. Individual form responses, as well as an overall record of the work shift are sent to a database and made available for management and clients to review as needed.
 
 # Additional Goals for Development
 
