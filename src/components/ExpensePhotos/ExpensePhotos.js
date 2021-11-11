@@ -8,17 +8,16 @@ const ExpensePhotos = (props) => {
   const [expensePhoto, setExpensePhoto] = useState('');
 
   useEffect(() => {
-    props.callback({ [props.target]: expensePhoto });
+    props.callback({ expensePhoto: expensePhoto });
   }, [expensePhoto]);
 
   const handleExpensePhotos = (data) => {
-    console.log(data);
     setExpensePhoto(data);
   };
 
   return (
     <div>
-      <Photos callback={handleExpensePhotos} />
+      <Photos callback={handleExpensePhotos} type='expense_photo' />
     </div>
   );
 };

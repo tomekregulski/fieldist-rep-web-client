@@ -3,7 +3,7 @@ import React, { useContext } from 'react';
 import { SessionContext } from '../../context/SessionContext';
 import { ReportContext } from '../../context/ReportContext';
 
-import AlertModal from '../AlertModal/AlertModal';
+import YesNoModal from '../YesNoModal/YesNoModal';
 
 const StopSession = () => {
   const { reset } = useContext(SessionContext);
@@ -21,7 +21,7 @@ const StopSession = () => {
 
   return (
     <div>
-      <AlertModal
+      <YesNoModal
         action={'Stop Session'}
         message={
           'Are you sure that you want to cancel this session? All of your data will be lost'

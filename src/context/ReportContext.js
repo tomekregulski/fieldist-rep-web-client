@@ -15,6 +15,10 @@ export const ReportProvider = (props) => {
   const [expensePhotos, setExpensePhotos] = useState([]);
 
   useEffect(() => {
+    console.log(reportPhotos[0]);
+  }, [reportPhotos, setReportPhotos]);
+
+  useEffect(() => {
     if (localStorage.getItem('currentReport')) {
       const data = JSON.parse(localStorage.getItem('currentReport'));
       data.brand && setSelectedBrand(data.brand);

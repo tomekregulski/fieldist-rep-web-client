@@ -1,46 +1,54 @@
-import React, { useCallback } from 'react';
-import { useDropzone } from 'react-dropzone';
+import React, { useState, useContext } from 'react';
+import { SessionContext } from '../../context/SessionContext';
+import { ReportContext } from '../../context/ReportContext';
 
-import ButtonMain from '../ButtonMain/ButtonMain';
+const PhotoUpload = (props) => {
+  const { currentDate, location } = useContext(SessionContext);
+  const { brand } = useContext(ReportContext);
+  const [selectedBrand, setSelectedBrand] = brand;
+  const [selectedLocation, setSelectedLocation] = location;
+  const [date, setDate] = currentDate;
+  const [images, setImages] = useState([]);
+  // const [url, setUrl] = useState([]);
 
-const Photos = (props) => {
-  const onDrop = useCallback((acceptedFiles) => {
-    const newPhoto = acceptedFiles[0].name;
-    props.callback(newPhoto);
-  }, []);
+  const uploadImage = () => {
+    for (const image in images) {
+      if (typeof images[image] === 'object') {
+        console.log(images[image]);
+        const name = `${selectedBrand}_WFM_Audits/${selectedBrand}_${
+          selectedLocation.name
+        }_${date.split('/').join('-')}_${props.type}_${image}`;
 
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({
-    onDrop,
-  });
+        const data = new FormData();
+        data.append('file', images[image]);
+        data.append('public_id', name);
+        data.append('upload_preset', 'tutorial');
+        data.append('cloud_name', 'intelly');
+        fetch('https://api.cloudinary.com/v1_1/intelly/image/upload', {
+          method: 'post',
+          body: data,
+        })
+          .then((resp) => resp.json())
+          .then((data) => {
+            props.callback(data.url);
+          })
+          .catch((err) => console.log(err));
+      }
+    }
+  };
 
   return (
-    <div
-      style={{
-        fontFamily: [
-          '-apple-system',
-          'BlinkMacSystemFont',
-          '"Segoe UI"',
-          'Roboto',
-          '"Helvetica Neue"',
-          'Arial',
-          'sans-serif',
-          '"Apple Color Emoji"',
-          '"Segoe UI Emoji"',
-          '"Segoe UI Symbol"',
-        ],
-      }}
-    >
-      <p>{props.title && props.title}</p>
-      <div {...getRootProps()}>
-        <input {...getInputProps()} />
-        {isDragActive ? (
-          <ButtonMain>Drop the files here ...</ButtonMain>
-        ) : (
-          <ButtonMain>Click here to select files</ButtonMain>
-        )}
+    <div>
+      <div>
+        <input
+          type='file'
+          multiple
+          onChange={(e) => setImages(e.target.files)}
+        ></input>
+        <button onClick={uploadImage}>Upload</button>
       </div>
     </div>
   );
 };
 
-export default Photos;
+export default PhotoUpload;

@@ -16,8 +16,16 @@ const SubmitForm = (props) => {
   const { currentDate, clockIn, location, clockOut, totalForms, reset } =
     useContext(SessionContext);
 
-  const { brand, data, finished, resetRpt, validated, photos, inventory } =
-    useContext(ReportContext);
+  const {
+    brand,
+    data,
+    finished,
+    resetRpt,
+    validated,
+    photos,
+    inventory,
+    expenses,
+  } = useContext(ReportContext);
 
   // eslint-disable-next-line no-unused-vars
   const [checkedIn, setCheckedIn] = clockIn;
@@ -40,6 +48,7 @@ const SubmitForm = (props) => {
   const [inventoryData, setInventoryData] = inventory;
   // eslint-disable-next-line no-unused-vars
   const [reportValidated, setReportValidated] = validated;
+  const [reportExpenses, setReportExpenses] = expenses;
 
   const resetReport = resetRpt;
   const resetSession = reset;
@@ -62,15 +71,15 @@ const SubmitForm = (props) => {
       rep_id: user[0].id,
       response: reportData.formResponse,
       inventory: inventoryData,
-      photos: JSON.stringify(eventPhotos),
-      expenses: reportData.expenses || '',
+      photos: eventPhotos,
+      expenses: reportExpenses || '',
     };
     console.log(payload);
 
     axios
       .post(
-        // 'http://127.0.0.1:5001/api/reports',
-        'https://fieldist-back-end.herokuapp.com/api/reports',
+        'http://127.0.0.1:5001/api/reports',
+        // 'https://fieldist-back-end.herokuapp.com/api/reports',
         {
           payload,
         }

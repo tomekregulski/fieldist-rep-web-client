@@ -14,7 +14,7 @@ const EventPhotos = () => {
 
   return (
     <div>
-      <Photos callback={handleEventPhotos} />
+      <Photos callback={handleEventPhotos} type='event_photo' />
     </div>
   );
 };
