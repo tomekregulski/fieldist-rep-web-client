@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Modal from '@mui/material/Modal';
@@ -17,14 +17,22 @@ const style = {
   maxHeight: '95vh',
 };
 
-const AlertModal = (props) => {
-  const handleClose = () => props.callback();
+const YesNoModal = (props) => {
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
+  const handleOk = () => {
+    props.callback();
+    handleClose();
+  };
 
   return (
     <div>
+      <Button onClick={handleOpen}>{props.action}</Button>
       <Modal
-        open={props.open}
-        // onClose={handleClose}
+        open={open}
+        onClose={handleClose}
         aria-labelledby='modal-modal-title'
         aria-describedby='modal-modal-description'
       >
@@ -49,12 +57,20 @@ const AlertModal = (props) => {
             {props.message}
           </p>
           <Button
-            onClick={handleClose}
             style={{ marginTop: '15px' }}
             variant='outlined'
             fullWidth
+            onClick={handleOk}
           >
-            Ok
+            Yes
+          </Button>
+          <Button
+            style={{ marginTop: '15px' }}
+            variant='outlined'
+            fullWidth
+            onClick={handleClose}
+          >
+            Cancel
           </Button>
         </Box>
       </Modal>
@@ -62,4 +78,4 @@ const AlertModal = (props) => {
   );
 };
 
-export default AlertModal;
+export default YesNoModal;

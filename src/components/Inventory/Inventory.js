@@ -34,9 +34,9 @@ const Inventory = () => {
     setInventoryData(tempObj);
   }, [inventoryData, selectedProducts, setInventoryData]);
 
-  useEffect(() => {
-    Object.keys(selectedProducts).length && setShowTable(true);
-  }, [selectedProducts]);
+  // useEffect(() => {
+  //   Object.keys(selectedProducts).length && setShowTable(true);
+  // }, [selectedProducts]);
 
   const handleProductSelect = (data) => {
     const value = Object.values(data)[0];
@@ -48,6 +48,7 @@ const Inventory = () => {
   };
 
   const handleSubmit = () => {
+    !selectedProducts.length && setShowTable(false);
     Object.values(selectedProducts).includes(true)
       ? setShowTable(true)
       : console.log('You must select at least one product');
@@ -75,7 +76,7 @@ const Inventory = () => {
         method='post'
       >
         <Button variant='outlined' fullWidth onClick={() => handleButton()}>
-          Select Products
+          {showTable === true ? 'Edit Selected Products' : 'Select Products'}
         </Button>
         {showProductSelect === true && (
           <Grid container spacing={2}>

@@ -1,10 +1,12 @@
-import React, { useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 
 import { SessionContext } from '../../context/SessionContext';
 import { FormSelect } from '../Forms';
 
 import axios from 'axios';
 import ButtonMain from '../ButtonMain/ButtonMain';
+
+import AlertModal from '../AlertModal/AlertModal';
 
 const Session = () => {
   const {
@@ -26,6 +28,9 @@ const Session = () => {
   const [brands, setBrands] = brandsData;
   // eslint-disable-next-line no-unused-vars
   const [brandList, setBrandList] = brandNames;
+
+  const [open, setOpen] = useState(false);
+  const [message, setMessage] = useState('');
 
   const handleStart = () => {
     setVenues([]);
@@ -57,6 +62,15 @@ const Session = () => {
       );
   };
 
+  const handleAlertResponse = () => {
+    setOpen(false);
+  };
+
+  const handleAlertOpen = (alertMessage) => {
+    setOpen(true);
+    setMessage(alertMessage);
+  };
+
   useEffect(() => {
     handleStart();
   }, []);
@@ -80,6 +94,11 @@ const Session = () => {
 
   const handleCheckIn = () => {
     setBrandList([]);
+    if (!Object.keys(selectedLocation).length) {
+      // alert('You must select store');
+      handleAlertOpen('You must select store');
+      return;
+    }
     if (!Object.keys(checkedIn).length) {
       const locationCoords = selectedLocation.coords.split(', ');
       navigator.geolocation.getCurrentPosition((position) => {
@@ -110,7 +129,9 @@ const Session = () => {
           getDistanceFromLatLonInKm(lat, lon, storeLat, storeLon) / 1.609;
         distance < 8
           ? setCheckedIn({ lat, lon, timestamp })
-          : console.log('Please try again when you are closer to the venue');
+          : handleAlertOpen(
+              'Please try again when you are closer to the venue'
+            );
       });
 
       axios
@@ -136,6 +157,13 @@ const Session = () => {
       <ButtonMain variant='outlined' fullWidth onClick={() => handleCheckIn()}>
         {Object.keys(checkedIn).length ? 'Checked In' : 'Check In'}
       </ButtonMain>
+      {open === true && (
+        <AlertModal
+          open={open}
+          message={message}
+          callback={handleAlertResponse}
+        />
+      )}
     </div>
   );
 };

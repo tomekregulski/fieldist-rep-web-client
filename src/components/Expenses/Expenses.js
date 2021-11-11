@@ -5,13 +5,14 @@ import ExpenseTable from './ExpenseTable';
 import Button from '@mui/material/Button';
 
 const Expenses = () => {
-  const { data } = useContext(ReportContext);
+  const { expenses } = useContext(ReportContext);
   // eslint-disable-next-line no-unused-vars
-  const [reportData, setReportData] = data;
+  const [reportExpenses, setReportExpenses] = expenses;
   const [show, setShow] = useState(false);
   const [newExpense, setNewExpense] = useState({});
 
   const handleInput = (data) => {
+    console.log(data);
     const value = Object.values(data)[0];
     const key = Object.keys(data)[0];
 
@@ -22,12 +23,7 @@ const Expenses = () => {
   };
 
   const handleSave = () => {
-    setReportData((prevState) => ({
-      ...prevState,
-      expenses: reportData.expenses
-        ? [...reportData.expenses, newExpense]
-        : [newExpense],
-    }));
+    setReportExpenses((prevState) => [...prevState, newExpense]);
     setShow(false);
   };
 
@@ -65,8 +61,8 @@ const Expenses = () => {
         </>
       ) : null}
 
-      {reportData.expenses
-        ? reportData.expenses.map((expense, index) => (
+      {reportExpenses
+        ? reportExpenses.map((expense, index) => (
             <p key={index}>
               Type: {expense.expenseType} | Amount: ${expense.expenseAmount} |
               Notes:
