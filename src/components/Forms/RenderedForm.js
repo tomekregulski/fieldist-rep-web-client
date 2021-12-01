@@ -64,7 +64,6 @@ const RenderedForm = () => {
         ],
       }}
     >
-      <h2> Event Questions</h2>
       <form
         style={{
           minWidth: '300px',

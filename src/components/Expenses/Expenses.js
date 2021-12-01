@@ -3,12 +3,14 @@ import { ReportContext } from '../../context/ReportContext';
 
 import ExpenseTable from './ExpenseTable';
 import Button from '@mui/material/Button';
+import ButtonMain from '../ButtonMain/ButtonMain';
 
 const Expenses = () => {
   const { expenses } = useContext(ReportContext);
   // eslint-disable-next-line no-unused-vars
   const [reportExpenses, setReportExpenses] = expenses;
   const [show, setShow] = useState(false);
+  const [showButton, setShowButton] = useState(true);
   const [newExpense, setNewExpense] = useState({});
 
   const handleInput = (data) => {
@@ -24,7 +26,12 @@ const Expenses = () => {
 
   const handleSave = () => {
     setReportExpenses((prevState) => [...prevState, newExpense]);
-    setShow(false);
+    handleExpenseButton();
+  };
+
+  const handleExpenseButton = () => {
+    setShow(!show);
+    setShowButton(!showButton);
   };
 
   return (
@@ -46,18 +53,24 @@ const Expenses = () => {
         ],
       }}
     >
-      <p>Please report any approved expenses for this report</p>
-      <Button onClick={() => setShow(!show)}>Add new expense</Button>
+      <p style={{ textAlign: 'center' }}>
+        Please report any approved expenses for this report
+      </p>
+      {showButton && (
+        <ButtonMain onClick={() => handleExpenseButton()}>
+          Add new expense
+        </ButtonMain>
+      )}
       {show === true ? (
         <>
           <ExpenseTable callback={handleInput} />
-          <Button
+          <ButtonMain
             variant='outlined'
             fullWidth
             onClick={(event) => handleSave(event)}
           >
             Save
-          </Button>
+          </ButtonMain>
         </>
       ) : null}
 

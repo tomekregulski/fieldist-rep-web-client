@@ -27,10 +27,9 @@ const ExpenseTable = (props) => {
 
   return (
     <div style={{ marginTop: '40px' }}>
-      <h2>Please enter a new expense</h2>
-      <Grid>
-        <Grid item xs={8}>
-          <TableContainer style={{ width: '450px' }} component={Paper}>
+      <div>
+        <div>
+          <TableContainer style={{ width: '100%' }} component={Paper}>
             <Table
               // sx={{ maxWidth: 850 }}
               size='small'
@@ -51,7 +50,7 @@ const ExpenseTable = (props) => {
                   <TableCell component='th' scope='row'>
                     <FormSelect
                       data={expenseTypes}
-                      question={'expenseType'}
+                      // question={'expenseType'}
                       callback={handleInput}
                       target={'expenseType'}
                     />
@@ -72,9 +71,9 @@ const ExpenseTable = (props) => {
               </TableBody>
             </Table>
           </TableContainer>
-        </Grid>
+        </div>
         <Grid style={{ marginTop: '20px' }} item xs={3}></Grid>
-      </Grid>
+      </div>
     </div>
   );
 };
