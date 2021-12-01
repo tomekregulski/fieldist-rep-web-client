@@ -5,6 +5,7 @@ export const AuthContext = createContext();
 export const AuthProvider = (props) => {
   const [isAuth, setIsAuth] = useState(false);
   const [userData, setUserData] = useState({});
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (JSON.parse(localStorage.getItem('user'))) {
@@ -27,7 +28,11 @@ export const AuthProvider = (props) => {
 
   return (
     <AuthContext.Provider
-      value={{ auth: [isAuth, setIsAuth], user: [userData, setUserData] }}
+      value={{
+        auth: [isAuth, setIsAuth],
+        user: [userData, setUserData],
+        load: [loading, setLoading],
+      }}
     >
       {props.children}
     </AuthContext.Provider>

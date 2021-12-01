@@ -8,6 +8,7 @@ import { FormSelect, Check } from './';
 
 const RenderedForm = () => {
   const { data, questions } = useContext(ReportContext);
+
   // eslint-disable-next-line no-unused-vars
   const [reportQuestions, setReportQuestions] = questions;
   const [reportData, setReportData] = data;

@@ -1,13 +1,19 @@
-import React from 'react';
+import React, { useContext, useState } from 'react';
 import { Switch, Route } from 'react-router-dom';
 import { SessionProvider } from './context/SessionContext';
 import { ReportProvider } from './context/ReportContext';
+import { AuthContext } from './context/AuthContext';
+
+import Loading from './components/Loading/Loading';
 
 import NavbarSwitch from './components/Navbar/NavbarSwitch';
 import { Login, Reports } from './pages';
 import ProtectedRoute from './ProtectedRoute';
 
 function App() {
+  const { load } = useContext(AuthContext);
+  const [loading, setLoading] = load;
+
   return (
     <div
       style={{
@@ -25,6 +31,7 @@ function App() {
         ],
       }}
     >
+      {loading && <Loading />}
       <NavbarSwitch />
       <Switch>
         <SessionProvider>

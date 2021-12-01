@@ -4,7 +4,7 @@ import Button from '@mui/material/Button';
 const ButtonMain = styled(Button)({
   boxShadow: 'none',
   display: 'block',
-  margin: '20px auto 20px',
+  margin: '0 auto',
   textTransform: 'none',
   fontSize: 16,
   padding: '6px 12px',
