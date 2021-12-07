@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 
 import { SessionContext } from '../../context/SessionContext';
+import { AuthContext } from '../../context/AuthContext';
 import { FormSelect } from '../Forms';
 
 import axios from 'axios';
@@ -17,6 +18,7 @@ const Session = () => {
     brandsData,
     brandNames,
   } = useContext(SessionContext);
+  const { load } = useContext(AuthContext);
 
   const [checkedIn, setCheckedIn] = clockIn;
   // eslint-disable-next-line no-unused-vars
@@ -31,8 +33,10 @@ const Session = () => {
 
   const [open, setOpen] = useState(false);
   const [message, setMessage] = useState('');
+  const [loading, setLoading] = load;
 
   const handleStart = () => {
+    setLoading(!loading);
     setVenues([]);
 
     function formatDate(date, format) {
@@ -59,7 +63,8 @@ const Session = () => {
           const store = `${venue.name}`;
           return setVenues((prevState) => [...prevState, store]);
         })
-      );
+      )
+      .then(setLoading(!loading));
   };
 
   const handleAlertResponse = () => {
@@ -93,6 +98,7 @@ const Session = () => {
   }
 
   const handleCheckIn = () => {
+    setLoading(!loading);
     setBrandList([]);
     if (!Object.keys(selectedLocation).length) {
       // alert('You must select store');
@@ -139,13 +145,15 @@ const Session = () => {
           // 'http://localhost:5001/api/brands'
           'https://fieldist-back-end.herokuapp.com/api/brands'
         )
-        .then((response) => setBrands(response.data));
+        .then((response) => setBrands(response.data))
+        .then(setLoading(!loading));
     }
   };
 
   return (
     <div>
       <div style={{ margin: '30px auto', width: '280px' }}>
+        <button onClick={() => setLoading(!loading)}>Loading</button>
         <FormSelect
           callback={handleStoreSelect}
           data={venues}

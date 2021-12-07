@@ -35,14 +35,6 @@ const Photos = (props) => {
       }}
     >
       <p>{props.title && props.title}</p>
-      {/* <div {...getRootProps()}>
-        <input {...getInputProps()} />
-        {isDragActive ? (
-          <ButtonMain>Drop the files here ...</ButtonMain>
-        ) : (
-          <ButtonMain>Click here to select files</ButtonMain>
-        )}
-      </div> */}
       <input type='file' name='image' onChange={onChange} />
     </div>
   );

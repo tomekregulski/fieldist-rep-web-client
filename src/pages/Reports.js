@@ -1,6 +1,7 @@
 import React, { useEffect, useContext } from 'react';
 import { SessionContext } from '../context/SessionContext';
 import { ReportContext } from '../context/ReportContext';
+import { AuthContext } from '../context/AuthContext';
 
 import { FormSelect } from '../components/Forms';
 import SectionCard from '../components/SectionCard/SectionCard';
@@ -11,6 +12,8 @@ const sections = ['Inventory', 'Form Response', 'Photos', 'Expenses'];
 
 const Reports = () => {
   const { clockIn, brandsData, brandNames } = useContext(SessionContext);
+  const { load } = useContext(AuthContext);
+  const [loading, setLoading] = load;
 
   const {
     brand,

@@ -8,10 +8,8 @@ import { ReportContext } from '../../context/ReportContext';
 
 import ButtonMain from '../ButtonMain/ButtonMain';
 
-import Grid from '@mui/material/Grid';
-
 const SubmitForm = (props) => {
-  const { user } = useContext(AuthContext);
+  const { user, load } = useContext(AuthContext);
 
   const { currentDate, clockIn, location, clockOut, totalForms, reset } =
     useContext(SessionContext);
@@ -49,11 +47,13 @@ const SubmitForm = (props) => {
   // eslint-disable-next-line no-unused-vars
   const [reportValidated, setReportValidated] = validated;
   const [reportExpenses, setReportExpenses] = expenses;
+  const [loading, setLoading] = load;
 
   const resetReport = resetRpt;
   const resetSession = reset;
 
   const handleSubmitReport = () => {
+    setLoading(!loading);
     setFormsSubmitted((prevState) => [...prevState, selectedBrand]);
 
     const today = new Date();
@@ -86,11 +86,13 @@ const SubmitForm = (props) => {
       )
       .then(
         setShowFinished(true),
+        setLoading(!loading),
         console.log('Report Successfully Submitted')
       );
   };
 
   const handleCheckOut = () => {
+    setLoading(!loading);
     navigator.geolocation.getCurrentPosition((position) => {
       const lat = position.coords.latitude;
       const lon = position.coords.longitude;
@@ -123,7 +125,12 @@ const SubmitForm = (props) => {
         .then(() => {
           window.location.reload();
         })
-        .then(resetReport(), resetSession(), setReportValidated(false));
+        .then(
+          resetReport(),
+          resetSession(),
+          setReportValidated(false),
+          setLoading(!loading)
+        );
     });
   };
 
@@ -145,7 +152,22 @@ const SubmitForm = (props) => {
         </ButtonMain>
       )}
       {showFinished === true ? (
-        <Grid>
+        <div
+          style={{
+            fontFamily: [
+              '-apple-system',
+              'BlinkMacSystemFont',
+              '"Segoe UI"',
+              'Roboto',
+              '"Helvetica Neue"',
+              'Arial',
+              'sans-serif',
+              '"Apple Color Emoji"',
+              '"Segoe UI Emoji"',
+              '"Segoe UI Symbol"',
+            ],
+          }}
+        >
           <p style={{ textAlign: 'center' }}>
             Do you have another form to submit at this location?
           </p>
@@ -159,11 +181,12 @@ const SubmitForm = (props) => {
           <ButtonMain
             variant='outlined'
             fullWidth
+            style={{ marginTop: '15px' }}
             onClick={() => handleSessionClose()}
           >
             No
           </ButtonMain>
-        </Grid>
+        </div>
       ) : null}
       {showClockOut === true ? (
         <ButtonMain

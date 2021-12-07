@@ -5,7 +5,8 @@ import { FormCheckbox } from '../Forms';
 import { InventoryTable } from '.';
 
 import Grid from '@mui/material/Grid';
-import Button from '@mui/material/Button';
+// import Button from '@mui/material/Button';
+import ButtonMain from '../ButtonMain/ButtonMain';
 
 const Inventory = () => {
   const { products, reportedProducts, inventory } = useContext(ReportContext);
@@ -33,10 +34,6 @@ const Inventory = () => {
     });
     setInventoryData(tempObj);
   }, [inventoryData, selectedProducts, setInventoryData]);
-
-  // useEffect(() => {
-  //   Object.keys(selectedProducts).length && setShowTable(true);
-  // }, [selectedProducts]);
 
   const handleProductSelect = (data) => {
     const value = Object.values(data)[0];
@@ -75,29 +72,25 @@ const Inventory = () => {
         action='/my-handling-form-page'
         method='post'
       >
-        <Button variant='outlined' fullWidth onClick={() => handleButton()}>
+        <ButtonMain variant='outlined' fullWidth onClick={() => handleButton()}>
           {showTable === true ? 'Edit Selected Products' : 'Select Products'}
-        </Button>
+        </ButtonMain>
         {showProductSelect === true && (
-          <Grid container spacing={2}>
-            <Grid style={{ minWidth: '300px' }} item xs={8}>
-              <FormCheckbox
-                question={'Please select products to report'}
-                data={brandProducts}
-                callback={handleProductSelect}
-                value={selectedProducts}
-              />
-            </Grid>
-            <Grid item xs={8}>
-              <Button
-                variant='outlined'
-                fullWidth
-                onClick={() => handleSubmit()}
-              >
-                Submit
-              </Button>
-            </Grid>
-          </Grid>
+          <div>
+            <FormCheckbox
+              question={'Please select products to report'}
+              data={brandProducts}
+              callback={handleProductSelect}
+              value={selectedProducts}
+            />
+            <ButtonMain
+              variant='outlined'
+              fullWidth
+              onClick={() => handleSubmit()}
+            >
+              Submit
+            </ButtonMain>
+          </div>
         )}
       </form>
 

@@ -8,6 +8,7 @@ import { FormSelect, Check } from './';
 
 const RenderedForm = () => {
   const { data, questions } = useContext(ReportContext);
+
   // eslint-disable-next-line no-unused-vars
   const [reportQuestions, setReportQuestions] = questions;
   const [reportData, setReportData] = data;
@@ -64,7 +65,6 @@ const RenderedForm = () => {
         ],
       }}
     >
-      <h2> Event Questions</h2>
       <form
         style={{
           minWidth: '300px',

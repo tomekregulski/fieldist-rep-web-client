@@ -8,6 +8,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+
 import Grid from '@mui/material/Grid';
 
 import { Textfield } from '../Forms';
@@ -57,68 +58,61 @@ const InventoryTable = (props) => {
         ],
       }}
     >
-      <h2>Inventory Data</h2>
-      <Grid>
-        <Grid item xs={8}>
-          <TableContainer style={{ width: '250px' }} component={Paper}>
-            <Table
-              sx={{ maxWidth: 250 }}
-              size='small'
-              aria-label='a dense table'
-            >
-              <TableHead>
-                <TableRow>
-                  <TableCell>Product</TableCell>
-                  {/* map function to render columns based on brand's (eventually campaign) preferences */}
-                  <TableCell align='right'>Inventory</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {products.map((product, index) => {
-                  if (inventoryData && inventoryData.hasOwnProperty(product)) {
-                    return (
-                      <TableRow
-                        key={index}
-                        sx={{
-                          '&:last-child td, &:last-child th': { border: 0 },
-                        }}
-                      >
-                        <TableCell component='th' scope='row'>
-                          {product}
-                        </TableCell>
-                        <TableCell align='right'>
-                          <Textfield
-                            callback={handleInput}
-                            target={product}
-                            value={inventoryData[product]}
-                          />
-                        </TableCell>
-                      </TableRow>
-                    );
-                  } else {
-                    return (
-                      <TableRow
-                        key={index}
-                        sx={{
-                          '&:last-child td, &:last-child th': { border: 0 },
-                        }}
-                      >
-                        <TableCell component='th' scope='row'>
-                          {product}
-                        </TableCell>
-                        <TableCell align='right'>
-                          <Textfield callback={handleInput} target={product} />
-                        </TableCell>
-                      </TableRow>
-                    );
-                  }
-                })}
-              </TableBody>
-            </Table>
-          </TableContainer>
-        </Grid>
-        <Grid style={{ marginTop: '20px' }} item xs={12}></Grid>
-      </Grid>
+      <div>
+        <TableContainer style={{ width: '300px' }} component={Paper}>
+          <Table size='small' aria-label='a dense table'>
+            <TableHead>
+              <TableRow>
+                <TableCell>Product</TableCell>
+                {/* map function to render columns based on brand's (eventually campaign) preferences */}
+                <TableCell align='right'>Inventory</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {products.map((product, index) => {
+                if (inventoryData && inventoryData.hasOwnProperty(product)) {
+                  return (
+                    <TableRow
+                      key={index}
+                      sx={{
+                        '&:last-child td, &:last-child th': { border: 0 },
+                      }}
+                    >
+                      <TableCell component='th' scope='row'>
+                        {product}
+                      </TableCell>
+                      <TableCell align='right'>
+                        <Textfield
+                          callback={handleInput}
+                          target={product}
+                          value={inventoryData[product]}
+                        />
+                      </TableCell>
+                    </TableRow>
+                  );
+                } else {
+                  return (
+                    <TableRow
+                      key={index}
+                      sx={{
+                        '&:last-child td, &:last-child th': { border: 0 },
+                      }}
+                    >
+                      <TableCell component='th' scope='row'>
+                        {product}
+                      </TableCell>
+                      <TableCell align='right'>
+                        <Textfield callback={handleInput} target={product} />
+                      </TableCell>
+                    </TableRow>
+                  );
+                }
+              })}
+            </TableBody>
+          </Table>
+        </TableContainer>
+        <div style={{ marginTop: '20px' }}></div>
+      </div>
     </div>
   );
 };

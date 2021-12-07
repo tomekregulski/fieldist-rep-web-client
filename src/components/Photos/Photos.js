@@ -2,6 +2,8 @@ import React, { useState, useContext } from 'react';
 import { SessionContext } from '../../context/SessionContext';
 import { ReportContext } from '../../context/ReportContext';
 
+import ButtonMain from '../ButtonMain/ButtonMain';
+
 const PhotoUpload = (props) => {
   const { currentDate, location } = useContext(SessionContext);
   const { brand } = useContext(ReportContext);
@@ -40,12 +42,52 @@ const PhotoUpload = (props) => {
   return (
     <div>
       <div>
-        <input
+        {/* <input
           type='file'
           multiple
           onChange={(e) => setImages(e.target.files)}
         ></input>
-        <button onClick={uploadImage}>Upload</button>
+        <button onClick={uploadImage}>Upload</button> */}
+        <label
+          class='custom-file-upload'
+          style={{
+            padding: '6px 12px',
+            cursor: 'pointer',
+            boxShadow: 'none',
+            display: 'block',
+            margin: '20px auto 20px',
+            textTransform: 'none',
+            fontSize: 16,
+            border: '1px solid',
+            lineHeight: 1.5,
+            backgroundColor: '#fff',
+            color: 'rgba(0, 180, 249, 0.872)',
+            borderColor: 'rgba(0, 180, 249, 0.872)',
+            borderRadius: '5px',
+            fontFamily: [
+              '-apple-system',
+              'BlinkMacSystemFont',
+              '"Segoe UI"',
+              'Roboto',
+              '"Helvetica Neue"',
+              'Arial',
+              'sans-serif',
+              '"Apple Color Emoji"',
+              '"Segoe UI Emoji"',
+              '"Segoe UI Symbol"',
+            ],
+            textAlign: 'center',
+          }}
+        >
+          <input
+            type='file'
+            multiple
+            onChange={(e) => setImages(e.target.files)}
+            style={{ display: 'none' }}
+          />
+          Select A Photo to Upload
+        </label>
+        <ButtonMain onClick={uploadImage}>Save Photo</ButtonMain>
       </div>
     </div>
   );

@@ -3,6 +3,8 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Modal from '@mui/material/Modal';
 
+import ButtonMain from '../ButtonMain/ButtonMain';
+
 const style = {
   position: 'absolute',
   top: '50%',
@@ -48,14 +50,9 @@ const AlertModal = (props) => {
           >
             {props.message}
           </p>
-          <Button
-            onClick={handleClose}
-            style={{ marginTop: '15px' }}
-            variant='outlined'
-            fullWidth
-          >
+          <ButtonMain onClick={handleClose} variant='outlined' fullWidth>
             Ok
-          </Button>
+          </ButtonMain>
         </Box>
       </Modal>
     </div>
