@@ -53,7 +53,7 @@ const SubmitForm = (props) => {
   const resetSession = reset;
 
   const handleSubmitReport = () => {
-    setLoading(true);
+    setLoading(!loading);
     setFormsSubmitted((prevState) => [...prevState, selectedBrand]);
 
     const today = new Date();
@@ -86,13 +86,13 @@ const SubmitForm = (props) => {
       )
       .then(
         setShowFinished(true),
-        setLoading(false),
+        setLoading(!loading),
         console.log('Report Successfully Submitted')
       );
   };
 
   const handleCheckOut = () => {
-    setLoading(true);
+    setLoading(!loading);
     navigator.geolocation.getCurrentPosition((position) => {
       const lat = position.coords.latitude;
       const lon = position.coords.longitude;
@@ -129,7 +129,7 @@ const SubmitForm = (props) => {
           resetReport(),
           resetSession(),
           setReportValidated(false),
-          setLoading(false)
+          setLoading(!loading)
         );
     });
   };
