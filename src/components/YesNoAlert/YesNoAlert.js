@@ -18,8 +18,13 @@ const style = {
   maxHeight: '95vh',
 };
 
-const AlertModal = (props) => {
-  const handleClose = () => props.callback();
+const YesNoAlert = (props) => {
+  const handleClose = () => props.handleClose();
+
+  const handleOk = () => {
+    props.callback();
+    handleClose();
+  };
 
   return (
     <div>
@@ -48,8 +53,12 @@ const AlertModal = (props) => {
           >
             {props.message}
           </p>
+          <ButtonMain onClick={handleOk} variant='outlined' fullWidth>
+            Yes
+          </ButtonMain>
+          <div style={{ marginTop: '20px' }}></div>
           <ButtonMain onClick={handleClose} variant='outlined' fullWidth>
-            Ok
+            No
           </ButtonMain>
         </Box>
       </Modal>
@@ -57,4 +66,4 @@ const AlertModal = (props) => {
   );
 };
 
-export default AlertModal;
+export default YesNoAlert;

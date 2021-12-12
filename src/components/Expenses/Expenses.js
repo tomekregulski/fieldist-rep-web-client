@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { ReportContext } from '../../context/ReportContext';
 
-import ExpenseTable from './ExpenseTable';
+import YesNoAlert from '../YesNoAlert/YesNoAlert';
 import ExpenseForm from './ExpenseForm';
 import ButtonMain from '../ButtonMain/ButtonMain';
 
@@ -10,6 +10,7 @@ const Expenses = (props) => {
   // eslint-disable-next-line no-unused-vars
   const [reportExpenses, setReportExpenses] = expenses;
   const [show, setShow] = useState(false);
+  const [showAlertModal, setShowAlertModal] = useState(false);
   const [showButton, setShowButton] = useState(true);
   const [newExpense, setNewExpense] = useState({});
 
@@ -34,6 +35,14 @@ const Expenses = (props) => {
     setShowButton(!showButton);
   };
 
+  const handleClearExpenses = () => {
+    setReportExpenses([]);
+  };
+
+  const closeModal = () => {
+    setShowAlertModal(false);
+  };
+
   return (
     <div
       style={{
@@ -53,9 +62,17 @@ const Expenses = (props) => {
         ],
       }}
     >
-      <p style={{ textAlign: 'center', marginBottom: '50px' }}>
+      <p style={{ textAlign: 'center', marginBottom: '30px' }}>
         Please report any approved expenses for this report
       </p>
+      {showAlertModal && (
+        <YesNoAlert
+          open={showAlertModal}
+          message='Are you sure you want to delete all expenses?'
+          handleClose={closeModal}
+          callback={handleClearExpenses}
+        />
+      )}
       {showButton && (
         <ButtonMain onClick={() => handleExpenseButton()}>
           Add new expense
@@ -81,13 +98,26 @@ const Expenses = (props) => {
           ))
         : null}
       {show === false ? (
-        <ButtonMain
-          variant='outlined'
-          fullWidth
-          onClick={() => props.callback()}
-        >
-          Close
-        </ButtonMain>
+        <>
+          <div style={{ marginTop: '10px' }}></div>
+          {reportExpenses.length > 0 && (
+            <ButtonMain
+              variant='outlined'
+              fullWidth
+              onClick={() => setShowAlertModal(true)}
+            >
+              Clear Expenses
+            </ButtonMain>
+          )}
+          <div style={{ marginTop: '10px' }}></div>
+          <ButtonMain
+            variant='outlined'
+            fullWidth
+            onClick={() => props.callback()}
+          >
+            Close
+          </ButtonMain>
+        </>
       ) : null}
     </div>
   );

@@ -20,7 +20,7 @@ const ExpenseForm = (props) => {
       <form style={{ margin: '0 auto', width: '280px' }}>
         <FormSelect
           data={expenseTypes}
-          question={'Expense Type'}
+          question={'expenseType'}
           callback={handleInput}
           target={'expenseType'}
         />
@@ -29,6 +29,7 @@ const ExpenseForm = (props) => {
           label='Expense Amount'
           callback={handleInput}
           target='expenseAmount'
+          type='integer'
         />
         <div style={{ marginTop: '10px' }}></div>
         <Textfield
