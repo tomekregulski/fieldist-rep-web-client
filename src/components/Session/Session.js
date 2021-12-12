@@ -153,7 +153,7 @@ const Session = () => {
   return (
     <div>
       <div style={{ margin: '30px auto', width: '280px' }}>
-        <button onClick={() => setLoading(!loading)}>Loading</button>
+        {/* <button onClick={() => setLoading(!loading)}>Loading</button> */}
         <FormSelect
           callback={handleStoreSelect}
           data={venues}

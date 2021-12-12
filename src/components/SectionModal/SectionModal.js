@@ -57,17 +57,25 @@ const SectionModal = (props) => {
         aria-describedby='modal-modal-description'
       >
         <Box sx={style}>
-          {props.title === 'Inventory' ? <Inventory /> : null}
-          {props.title === 'Form Response' ? <RenderedForm /> : null}
-          {props.title === 'Photos' ? <EventPhotos /> : null}
-          {props.title === 'Expenses' ? <Expenses /> : null}
+          {props.title === 'Inventory' ? (
+            <Inventory callback={handleClose} />
+          ) : null}
+          {props.title === 'Form Response' ? (
+            <RenderedForm callback={handleClose} />
+          ) : null}
+          {props.title === 'Photos' ? (
+            <EventPhotos callback={handleClose} />
+          ) : null}
+          {props.title === 'Expenses' ? (
+            <Expenses callback={handleClose} />
+          ) : null}
           {props.title === 'Start New Store Visit' ? <Session /> : null}
           {props.title === 'Visit in Progress' ? <StopSession /> : null}
           {props.title === 'Submit Report' ? (
             <SubmitForm callback={handleClose} />
           ) : null}
 
-          {props.title !== 'Start New Store Visit' && (
+          {/* {props.title !== 'Start New Store Visit' && (
             <ButtonMain
               style={{ marginTop: '15px' }}
               variant='outlined'
@@ -76,7 +84,7 @@ const SectionModal = (props) => {
             >
               Close
             </ButtonMain>
-          )}
+          )} */}
         </Box>
       </Modal>
     </div>
