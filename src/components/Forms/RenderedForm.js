@@ -6,7 +6,7 @@ import ButtonMain from '../ButtonMain/ButtonMain';
 
 import { FormSelect, Check } from './';
 
-const RenderedForm = () => {
+const RenderedForm = (props) => {
   const { data, questions } = useContext(ReportContext);
 
   // eslint-disable-next-line no-unused-vars
@@ -21,6 +21,7 @@ const RenderedForm = () => {
       ...prevState,
       formResponse: formData,
     }));
+    props.callback();
   };
 
   const handleCheckChange = (data) => {
@@ -112,14 +113,14 @@ const RenderedForm = () => {
                 }
               })
             : null}
-          <Grid item xs={12}>
+          <div style={{ marginTop: '25px' }}>
             <ButtonMain
               variant='outlined'
               onClick={(event) => handleSubmit(event)}
             >
-              Save
+              Save and Close
             </ButtonMain>
-          </Grid>
+          </div>
         </Grid>
       </form>
     </div>

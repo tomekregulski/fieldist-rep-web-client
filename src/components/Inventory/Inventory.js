@@ -4,11 +4,9 @@ import { ReportContext } from '../../context/ReportContext';
 import { FormCheckbox } from '../Forms';
 import { InventoryTable } from '.';
 
-import Grid from '@mui/material/Grid';
-// import Button from '@mui/material/Button';
 import ButtonMain from '../ButtonMain/ButtonMain';
 
-const Inventory = () => {
+const Inventory = (props) => {
   const { products, reportedProducts, inventory } = useContext(ReportContext);
   // eslint-disable-next-line no-unused-vars
   const [brandProducts, setBrandProducts] = products;
@@ -88,13 +86,24 @@ const Inventory = () => {
               fullWidth
               onClick={() => handleSubmit()}
             >
-              Submit
+              Save
             </ButtonMain>
           </div>
         )}
       </form>
 
       {showTable === true ? <InventoryTable data={selectedProducts} /> : null}
+      {showProductSelect === false ? (
+        <div style={{ marginTop: '15px' }}>
+          <ButtonMain
+            variant='outlined'
+            fullWidth
+            onClick={() => props.callback()}
+          >
+            Save and Close
+          </ButtonMain>
+        </div>
+      ) : null}
     </div>
   );
 };

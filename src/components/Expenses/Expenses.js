@@ -2,10 +2,10 @@ import React, { useState, useContext } from 'react';
 import { ReportContext } from '../../context/ReportContext';
 
 import ExpenseTable from './ExpenseTable';
-import Button from '@mui/material/Button';
+import ExpenseForm from './ExpenseForm';
 import ButtonMain from '../ButtonMain/ButtonMain';
 
-const Expenses = () => {
+const Expenses = (props) => {
   const { expenses } = useContext(ReportContext);
   // eslint-disable-next-line no-unused-vars
   const [reportExpenses, setReportExpenses] = expenses;
@@ -53,7 +53,7 @@ const Expenses = () => {
         ],
       }}
     >
-      <p style={{ textAlign: 'center' }}>
+      <p style={{ textAlign: 'center', marginBottom: '50px' }}>
         Please report any approved expenses for this report
       </p>
       {showButton && (
@@ -62,19 +62,10 @@ const Expenses = () => {
         </ButtonMain>
       )}
       {show === true ? (
-        <>
-          <ExpenseTable callback={handleInput} />
-          <ButtonMain
-            variant='outlined'
-            fullWidth
-            onClick={(event) => handleSave(event)}
-          >
-            Save
-          </ButtonMain>
-        </>
+        <ExpenseForm callback={handleInput} handleSave={handleSave} />
       ) : null}
 
-      {reportExpenses
+      {show === false && reportExpenses
         ? reportExpenses.map((expense, index) => (
             <p key={index}>
               Type: {expense.expenseType} | Amount: ${expense.expenseAmount} |
@@ -89,6 +80,15 @@ const Expenses = () => {
             </p>
           ))
         : null}
+      {show === false ? (
+        <ButtonMain
+          variant='outlined'
+          fullWidth
+          onClick={() => props.callback()}
+        >
+          Close
+        </ButtonMain>
+      ) : null}
     </div>
   );
 };

@@ -12,7 +12,7 @@ const Textfield = (props) => {
     <div>
       <TextField
         onChange={handleInput}
-        label={props.data && props.data}
+        label={props.label && props.label}
         variant='standard'
         value={props.value}
       />
