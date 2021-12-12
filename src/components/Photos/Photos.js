@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/alt-text */
 import React, { useState, useContext } from 'react';
 import { SessionContext } from '../../context/SessionContext';
 import { ReportContext } from '../../context/ReportContext';
@@ -6,7 +7,8 @@ import ButtonMain from '../ButtonMain/ButtonMain';
 
 const PhotoUpload = (props) => {
   const { currentDate, location } = useContext(SessionContext);
-  const { brand } = useContext(ReportContext);
+  const { brand, photos } = useContext(ReportContext);
+  const [reportPhotos, setReportPhotos] = photos;
   const [selectedBrand, setSelectedBrand] = brand;
   const [selectedLocation, setSelectedLocation] = location;
   const [date, setDate] = currentDate;
@@ -88,6 +90,22 @@ const PhotoUpload = (props) => {
           Select A Photo to Upload
         </label>
         <ButtonMain onClick={uploadImage}>Save Photo</ButtonMain>
+        {reportPhotos.length > 0 && (
+          <div style={{ display: 'flex' }}>
+            {reportPhotos.map((photo, index) => (
+              <img
+                style={{
+                  display: 'block',
+                  width: '60%',
+                  maxWidth: '100px',
+                  margin: '25px auto 0',
+                }}
+                key={index}
+                src={photo}
+              />
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );
