@@ -75,7 +75,7 @@ const SectionModal = (props) => {
             <SubmitForm callback={handleClose} />
           ) : null}
 
-          {/* {props.title !== 'Start New Store Visit' && (
+          {/* {props.title === 'Photos' && (
             <ButtonMain
               style={{ marginTop: '15px' }}
               variant='outlined'
